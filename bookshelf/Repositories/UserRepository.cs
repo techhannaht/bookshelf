@@ -76,5 +76,28 @@ namespace bookshelf.Repositories
                 }
             }
         }
+
+        public void Add(User userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO [User] (firstName, lastName, userName, 
+                                                                 password, imageUrl)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@firstName, @lastName, @userName, 
+                                                @password, @imageUrl)";
+                    DbUtils.AddParameter(cmd, "@firstName", userProfile.firstName);
+                    DbUtils.AddParameter(cmd, "@lastName", userProfile.lastName);
+                    DbUtils.AddParameter(cmd, "@userName", userProfile.userName);
+                    DbUtils.AddParameter(cmd, "@password", userProfile.password);
+                    DbUtils.AddParameter(cmd, "@imageUrl", userProfile.imageUrl);
+
+                    userProfile.id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }

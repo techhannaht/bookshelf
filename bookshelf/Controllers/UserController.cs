@@ -1,4 +1,5 @@
-﻿using bookshelf.Repositories;
+﻿using bookshelf.Models;
+using bookshelf.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookshelf.Controllers
@@ -22,7 +23,7 @@ namespace bookshelf.Controllers
         }
 
         [HttpGet("GetByUserName")]
-        public IActionResult GetByEmail(string userName)
+        public IActionResult GetByUserName(string userName)
         {
             var user = _userRepository.GetByUserName(userName);
 
@@ -31,6 +32,16 @@ namespace bookshelf.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpPost]
+        public IActionResult Post(User userProfile)
+        {
+            _userRepository.Add(userProfile);
+            return CreatedAtAction(
+                "GetByUserName",
+                new { username = userProfile.userName },
+                userProfile);
         }
     }
 }

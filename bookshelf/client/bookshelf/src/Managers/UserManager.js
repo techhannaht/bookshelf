@@ -25,3 +25,18 @@ export const getallprofiles = () => {
   export const logout = () => {
     localStorage.clear()
 };
+
+export const register = (userObject, password) => {
+    return  fetch(`${apiUrl}/api/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObject),
+    })
+    .then((response) => response.json())
+      .then((savedUserProfile) => {
+        localStorage.setItem("userProfile", JSON.stringify(savedUserProfile))
+      });
+  };
+  
