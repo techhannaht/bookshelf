@@ -1,4 +1,4 @@
-namespace bookshelf
+namespace bookshelf.Models
 {
     public class WeatherForecast
     {

@@ -1,3 +1,4 @@
+using bookshelf.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookshelf.Controllers
