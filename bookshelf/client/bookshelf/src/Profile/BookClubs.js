@@ -1,7 +1,7 @@
 export function BookClubs() {
     return (
         <>
-            <h1>Book Clubs</h1>
+            <h1><i>Book Clubs</i></h1>
 
             <ul className="list-group mt-4">
                 {/* loop through book clubs */}

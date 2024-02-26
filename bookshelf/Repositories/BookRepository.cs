@@ -15,8 +15,8 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT b.id, b.userId, b.title, b.currentPage, b.totalPage, b.genreId, b.authorId,a.id, a.name, g.id, g.name, 
-                                    u.id, u.firstName, u.lastName, u.userName, u.password, u.imageURL
+                                    SELECT b.id, b.userId, b.title, b.currentPage, b.totalPage, b.genreId, b.authorId,a.id AS ""Author Id"", a.name AS ""Author Name"", g.id AS ""Genre Id"", g.name AS ""Genre Name"", 
+                                    u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL
                                     FROM Books b
                                     LEFT JOIN Author a ON b.authorId = a.id
                                     LEFT JOIN Genre g ON b.genreId = g.id
@@ -48,23 +48,23 @@ namespace bookshelf.Repositories
                 id = reader.GetInt32(reader.GetOrdinal("id")),
                 title = reader.GetString(reader.GetOrdinal("title")),
                 currentPage = reader.GetInt32(reader.GetOrdinal("currentPage")),
-                totalPage = DbUtils.GetInt(reader, "totalPage"),
+                totalPage = reader.GetInt32(reader.GetOrdinal("totalPage")),
                 authorId = reader.GetInt32(reader.GetOrdinal("authorId")),
                 Author = new Author()
                 {
-                    id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-                    name = reader.GetString(reader.GetOrdinal("AuthorName"))
+                    id = reader.GetInt32(reader.GetOrdinal("Author Id")),
+                    name = reader.GetString(reader.GetOrdinal("Author Name"))
                 },
-                genreId = DbUtils.GetInt(reader, "genreId"),
+                genreId = reader.GetInt32(reader.GetOrdinal("genreId")),
                 Genre = new Genre()
                 {
-                    id = reader.GetInt32(reader.GetOrdinal("GenreId")),
-                    name = reader.GetString(reader.GetOrdinal("GenreName"))
+                    id = reader.GetInt32(reader.GetOrdinal("Genre Id")),
+                    name = reader.GetString(reader.GetOrdinal("Genre Name"))
                 },
                 userId = reader.GetInt32(reader.GetOrdinal("userId")),
                 User = new User()
                 {
-                    id = DbUtils.GetInt(reader, "id"),
+                    id = reader.GetInt32(reader.GetOrdinal("User Id")),
                     firstName = DbUtils.GetString(reader, "firstName"),
                     lastName = DbUtils.GetString(reader, "lastName"),
                     userName = DbUtils.GetString(reader, "userName"),

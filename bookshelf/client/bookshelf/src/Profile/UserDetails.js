@@ -32,8 +32,7 @@ export function UserDetails() {
                 />
             )}
             <div>
-                <label className="font-weight-bold">Display name: </label>
-                <span> {user.userName} </span>
+                <label className="font-weight-bold"> {user.userName} </label>
             </div>
             <div>
                 <label className="font-weight-bold">Total friends: </label>

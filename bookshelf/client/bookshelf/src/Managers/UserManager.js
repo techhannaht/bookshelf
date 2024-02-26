@@ -22,7 +22,7 @@ export const getallprofiles = () => {
       });
   };
 
-    // fetch all profiles 
+    // fetch all profiles info by user
 export const getAllProfileInfoByUser = (userObject) => {
     return fetch(`${apiUrl}/api/User/getbyusername?username=${userObject.userName}`)
       .then((r) => r.json());
@@ -47,4 +47,6 @@ export const register = (userObject, password) => {
         localStorage.setItem("userProfile", JSON.stringify(savedUserProfile))
       });
   };
+
+ 
   

@@ -1,26 +1,51 @@
+import React, { useState, useEffect } from "react";
+import { getAllBooksByUser } from "../Managers/BookManager";
+import { Progress } from "reactstrap";
+
 export function CurrentlyReading() {
+
+    const [books, setBook] = useState([]);
+
+    const getBooks = () => {
+        const localBookshelfUser = localStorage.getItem("userProfile");
+        const bookshelfUserObject = JSON.parse(localBookshelfUser);
+
+        getAllBooksByUser(bookshelfUserObject.id).then(allInfo => setBook(allInfo));
+    };
+
+    useEffect(() => {
+        getBooks();
+    }, []);
+
     return (
         <>
-            <h1 className="text-left">Currently Reading:</h1>
-
+            <h1 className="text-left"><i>Currently Reading</i></h1>
             <div className="row">
-                {/* loop through books */}
-                <div className="card m-4" style={{ width: '18rem' }}>
-                    <div className="card-body">
-                        <div>
-                            <label className="font-weight-bold">Book Title</label>
-                        </div>
-                        <div>
-                            <label className="font-weight-bold">Author</label>
-                        </div>
-                        <div>
-                            <label className="font-weight-bold">Genre</label>
-                        </div>
-                        <div>
-                            <label className="font-weight-bold">Progress Bar</label>
+                {books.map((book) => (
+                    <div className="card m-4" style={{ width: '18rem' }} key={book.id}>
+                        <div className="card-body text-center">
+                            <div>
+                                <label className="font-weight-bold" style={{ fontSize: '1.2em' }} ><b>{book.title}</b></label>
+                            </div>
+                            <div>
+                                <label className="font-weight-bold"><i>{book.author.name}</i></label>
+                            </div>
+                            <div>
+                                <label className="font-weight-bold"><i>{book.genre.name}</i></label>
+                            </div>
+                            <div>
+                                <Progress
+                                    animated
+                                    color="info"
+                                    striped
+                                    max={book.totalPage}
+                                    value={book.currentPage}
+                                />
+                                <p> on page {book.currentPage} of {book.totalPage} </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ))}
             </div>
         </>
     )
