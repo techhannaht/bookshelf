@@ -1,4 +1,8 @@
-﻿namespace bookshelf.Repositories
+﻿using bookshelf.Models;
+using bookshelf.Utils;
+using Microsoft.Data.SqlClient;
+
+namespace bookshelf.Repositories
 {
     public class BookClubRepository : BaseRepository, IBookClubRepository
     {
