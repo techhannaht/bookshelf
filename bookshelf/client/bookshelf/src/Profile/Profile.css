@@ -1,0 +1,33 @@
+.bookshelf-userdetails-friendslist {
+    width: 1920px;
+    height: 200px;
+  
+    display: grid;
+    grid:
+      "user-details friends-list" 1fr
+      / 1fr 2fr;
+    gap: 5px;
+
+    border-bottom: 1px solid #ccc; /* Add a border at the bottom */;
+    padding-bottom: 10px; /* Add some padding at the bottom */
+
+  }
+
+  .bookshelf-currentlyreading-bookclubs {
+    width: 1920px;
+    height: 880px;
+  
+    display: grid;
+    grid:
+      "currently-reading book-clubs" 1fr
+      / 2fr 1fr;
+    gap: 5px;
+
+    padding-top: 150px; /* Add some padding at the bottom */
+  }
+  
+  .user-details { grid-area: user-details;}
+  .friends-list { grid-area: friends-list;}
+  .currently-reading { grid-area: currently-reading; }
+  .book-clubs { grid-area: book-clubs; }
+  

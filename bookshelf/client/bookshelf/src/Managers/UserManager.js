@@ -1,5 +1,6 @@
 const apiUrl = "https://localhost:5001";
 
+
 // fetch all profiles 
 export const getallprofiles = () => {
     return fetch(`${apiUrl}/api/User`)
@@ -20,6 +21,13 @@ export const getallprofiles = () => {
         }
       });
   };
+
+    // fetch all profiles 
+export const getAllProfileInfoByUser = (userObject) => {
+    return fetch(`${apiUrl}/api/User/getbyusername?username=${userObject.userName}`)
+      .then((r) => r.json());
+  };
+
 
   // logout
   export const logout = () => {
