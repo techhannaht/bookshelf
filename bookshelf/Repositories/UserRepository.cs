@@ -77,6 +77,42 @@ namespace bookshelf.Repositories
             }
         }
 
+        public User GetById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT id, firstName, lastName, userName, password, imageUrl 
+                        FROM [User]
+                        WHERE id = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    User userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        userProfile = new User()
+                        {
+                            id = DbUtils.GetInt(reader, "id"),
+                            firstName = DbUtils.GetString(reader, "firstName"),
+                            lastName = DbUtils.GetString(reader, "lastName"),
+                            userName = DbUtils.GetString(reader, "userName"),
+                            password = DbUtils.GetString(reader, "password"),
+                            imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                        };
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
+
         public void Add(User userProfile)
         {
             using (var conn = Connection)

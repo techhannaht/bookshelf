@@ -34,6 +34,18 @@ namespace bookshelf.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetById")]
+        public IActionResult GetById(int id)
+        {
+            var user = _userRepository.GetById(id);
+
+            if (id == null || user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult Post(User userProfile)
         {

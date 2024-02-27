@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getAllBookClubsByUser } from "../Managers/BookClubManager";
+import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
 
 
-export function BookClubs() {
+export function MyBookClubs() {
 
     const [bookClubs, setBookClubs] = useState([]);
 
@@ -10,7 +10,7 @@ export function BookClubs() {
         const localBookshelfUser = localStorage.getItem("userProfile");
         const bookshelfUserObject = JSON.parse(localBookshelfUser);
 
-        getAllBookClubsByUser(bookshelfUserObject.id).then(allInfo => setBookClubs(allInfo));
+        getAllBookClubsByLoggedInUser(bookshelfUserObject.id).then(allInfo => setBookClubs(allInfo));
     };
 
     useEffect(() => {

@@ -2,7 +2,7 @@ import { getAllProfileInfoByUser } from "../Managers/UserManager";
 import React, { useState, useEffect } from "react";
 import FollowButton from "./FollowButton";
 
-export function UserDetails() {
+export function MyUserDetails() {
     const [user, setUser] = useState([]);
 
     const getUser = () => {

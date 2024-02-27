@@ -22,9 +22,15 @@ export const getallprofiles = () => {
       });
   };
 
-    // fetch all profiles info by user
+    // fetch all profiles info by username
 export const getAllProfileInfoByUser = (userObject) => {
     return fetch(`${apiUrl}/api/User/getbyusername?username=${userObject.userName}`)
+      .then((r) => r.json());
+  };
+
+    // fetch all profiles info by user Id
+export const getAllProfileInfoById = (id) => {
+    return fetch(`${apiUrl}/api/User/GetById?id=${id}`)
       .then((r) => r.json());
   };
 

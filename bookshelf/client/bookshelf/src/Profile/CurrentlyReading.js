@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { getAllBooksByUser } from "../Managers/BookManager";
+import { getAllBooksByUser } from "../Managers/BookManager"; // Adjust this import based on your actual API implementation
 import { Progress } from "reactstrap";
 
-export function CurrentlyReading() {
-
-    const [books, setBook] = useState([]);
-
-    const getBooks = () => {
-        const localBookshelfUser = localStorage.getItem("userProfile");
-        const bookshelfUserObject = JSON.parse(localBookshelfUser);
-
-        getAllBooksByUser(bookshelfUserObject.id).then(allInfo => setBook(allInfo));
-    };
+export function CurrentlyReading({ userId }) {
+    const [userBooks, setUserBooks] = useState([]);
 
     useEffect(() => {
-        getBooks();
+        // Fetch books for the current user
+        fetchCurrentUserBooks();
     }, []);
+
+    const fetchCurrentUserBooks = async () => {
+        try {
+            // Fetch books for the current user from the backend
+            const books = await getAllBooksByUser(userId);
+            console.log(books);
+            setUserBooks(books);
+        } catch (error) {
+            console.error("Error fetching user's books:", error);
+        }
+    };
 
     return (
         <>
             <h1 className="text-left"><i>Currently Reading</i></h1>
             <div className="row">
-                {books.map((book) => (
+                {userBooks.map((book) => (
                     <div className="card m-4" style={{ width: '18rem' }} key={book.id}>
                         <div className="card-body text-center">
                             <div>
@@ -48,5 +52,6 @@ export function CurrentlyReading() {
                 ))}
             </div>
         </>
-    )
+    );
 }
+

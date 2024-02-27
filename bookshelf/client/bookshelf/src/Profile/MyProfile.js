@@ -1,30 +1,30 @@
-import { BookClubs } from './BookClubs';
-import { CurrentlyReading } from './CurrentlyReading';
-import { FriendsList } from './FriendsList';
+import { MyBookClubs } from './MyBookClubs';
+import { MyCurrentlyReading } from './MyCurrentlyReading';
+import { MyFriendsList } from './MyFriendsList';
 import './Profile.css';
-import { UserDetails } from './UserDetails';
+import { MyUserDetails } from './MyUserDetails';
 
-export default function Profile() {
+export default function MyProfile() {
     return (
         <>
             <section className="bookshelf-userdetails-friendslist">
                 {/* User Details Section */}
                 <div className="user-details">
-                <UserDetails/>
+                <MyUserDetails/>
                 </div>
                 {/* Friends List */}
                 <div className="friends-list">
-                <FriendsList/>
+                <MyFriendsList/>
                 </div>
             </section>
             <section className="bookshelf-currentlyreading-bookclubs">
                 {/* Currently Reading */}
                 <div className="currently-reading">
-                <CurrentlyReading/>
+                <MyCurrentlyReading/>
                 </div>
                 {/* Book Clubs */}
                 <div className="book-clubs">
-                <BookClubs/>
+                <MyBookClubs/>
                 </div>
             </section>
         </>

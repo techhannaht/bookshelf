@@ -6,6 +6,7 @@ namespace bookshelf.Repositories
     {
         void Add(User userProfile);
         List<User> GetAll();
+        User GetById(int id);
         User GetByUserName(string userName);
     }
 }
