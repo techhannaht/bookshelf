@@ -1,0 +1,49 @@
+/* Define green shades */
+:root {
+    --main-green: #8ed1b2;
+    /* Main muted green color */
+    --dark-green: #6fa78e;
+    /* Darker shade of muted green */
+    --accent-green: #5c8a6f;
+    /* Accent muted green color */
+}
+
+.bookshelf-userdetails-friendslist {
+    width: 1920px;
+    height: 200px;
+
+    display: grid;
+    grid:
+        "user-details friends-list" 1fr / 1fr 2fr;
+    gap: 5px;
+
+    padding-bottom: 10px;
+}
+
+.bookshelf-currentlyreading-bookclubs {
+    width: 1920px;
+    height: 880px;
+
+    display: grid;
+    grid:
+        "currently-reading book-clubs" 1fr / 2fr 1fr;
+    gap: 5px;
+
+    padding-top: 150px;
+}
+
+.user-details {
+    grid-area: user-details;
+}
+
+.friends-list {
+    grid-area: friends-list;
+}
+
+.currently-reading {
+    grid-area: currently-reading;
+}
+
+.book-clubs {
+    grid-area: book-clubs;
+}
