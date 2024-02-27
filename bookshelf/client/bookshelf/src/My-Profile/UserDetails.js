@@ -1,5 +1,6 @@
 import { getAllProfileInfoByUser } from "../Managers/UserManager";
 import React, { useState, useEffect } from "react";
+import FollowButton from "./FollowButton";
 
 export function UserDetails() {
     const [user, setUser] = useState([]);
@@ -39,7 +40,7 @@ export function UserDetails() {
                 <span> # of friends </span>
             </div>
             <p></p>
-            <button> Follow </button>
+            {/* <FollowButton/> */}
         </>
     )
 }

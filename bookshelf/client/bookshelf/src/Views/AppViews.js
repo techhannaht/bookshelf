@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import Profile from "../Profile/Profile";
+import Profile from "../My-Profile/Profile";
 
 export default function ApplicationViews() {
 

@@ -10,7 +10,7 @@ export default function Profile() {
             <section className="bookshelf-userdetails-friendslist">
                 {/* User Details Section */}
                 <div className="user-details">
-                    <UserDetails/>
+                <UserDetails/>
                 </div>
                 {/* Friends List */}
                 <div className="friends-list">

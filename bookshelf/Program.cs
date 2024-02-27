@@ -15,6 +15,7 @@ namespace bookshelf
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IBookRepository, BookRepository>();
             builder.Services.AddTransient<IBookClubRepository, BookClubRepository>();
+            builder.Services.AddTransient<IFollowRepository, FollowRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
