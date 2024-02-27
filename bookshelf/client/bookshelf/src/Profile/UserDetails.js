@@ -37,7 +37,7 @@ export function UserDetails({userId}) {
                 <span> # of friends </span>
             </div>
             <p></p>
-            {/* <FollowButton/> */}
+            <FollowButton userId={userId}/>
         </>
     )
 }

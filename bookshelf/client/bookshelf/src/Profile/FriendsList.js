@@ -14,8 +14,6 @@ export function FriendsList({userId}) {
         getFriends();
     }, []);
 
-    console.log(friends);
-
     return (
         <>
             <h1><i>Friends</i></h1>

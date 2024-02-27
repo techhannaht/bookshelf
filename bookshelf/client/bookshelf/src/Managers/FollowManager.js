@@ -1,7 +1,7 @@
 const apiUrl = "https://localhost:5001/Follow";
 
 export const addFollow = (singleFollow) => {
-    return fetch(apiUrl, {
+    return fetch(`https://localhost:5001/api/Follow`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
