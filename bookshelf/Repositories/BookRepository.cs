@@ -109,9 +109,9 @@ namespace bookshelf.Repositories
                             SET 
                                 [userId] = @userId,
                                 title = @title,
-                                currentPage = @currentPage
-                                totalPage = @totalPage
-                                genreId = @genreId
+                                currentPage = @currentPage,
+                                totalPage = @totalPage,
+                                genreId = @genreId,
                                 authorId = @authorId
                             WHERE id = @id";
 
