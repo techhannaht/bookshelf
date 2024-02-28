@@ -76,7 +76,7 @@ ALTER TABLE [Books] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
 GO
 
 ALTER TABLE [Books] ADD FOREIGN KEY ([authorId]) REFERENCES [Author] ([id])
-GO
+G
 
 ALTER TABLE [bookClub] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
 GO
