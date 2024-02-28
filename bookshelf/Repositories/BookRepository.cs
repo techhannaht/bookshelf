@@ -85,10 +85,10 @@ namespace bookshelf.Repositories
 
                     BookClub bookClub = new BookClub();
 
-                    bookClub.userId = book.userId; // Assuming you associate the book's user with the book club
-                    bookClub.bookId = book.id; // Use the ID of the newly added book
+                    bookClub.userId = book.userId;
+                    bookClub.bookId = book.id;
 
-                    // Add the book club to the database
+
                     AddBookClub(bookClub);
 
                 }
