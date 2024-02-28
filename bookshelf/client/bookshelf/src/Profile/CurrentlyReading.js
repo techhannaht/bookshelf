@@ -14,7 +14,6 @@ export function CurrentlyReading({ userId }) {
         try {
             // Fetch books for the current user from the backend
             const books = await getAllBooksByUser(userId);
-            console.log(books);
             setUserBooks(books);
         } catch (error) {
             console.error("Error fetching user's books:", error);

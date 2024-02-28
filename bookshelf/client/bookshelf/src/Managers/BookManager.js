@@ -15,3 +15,28 @@ export const getAllBooksByUser = (id) => {
         .then((r) => r.json());
 };
 
+export const addBook = (singleBook) => {
+    return fetch(`https://localhost:5001/api/Book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(singleBook),
+    });
+  };
+
+  export const editBook = (book) => {
+    return fetch(`https://localhost:5001/api/Book/${book.id}`, {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(book),
+    });
+};
+  
+  
+  export const deleteBook = (id) => {
+    return fetch(`https://localhost:5001/api/Book/${id}`, { method: "DELETE" })
+  }
+

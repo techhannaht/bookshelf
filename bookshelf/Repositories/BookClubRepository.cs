@@ -40,6 +40,25 @@ namespace bookshelf.Repositories
             }
         }
 
+        public void AddBookClub(BookClub bookClub)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO BookClubs (userId, bookId)
+                    OUTPUT INSERTED.ID
+                    VALUES (@userId, @bookId)";
+                    cmd.Parameters.AddWithValue("@userId", bookClub.userId);
+                    cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
+
+                    bookClub.id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         private BookClub NewBookClubFromReader(SqlDataReader reader)
         {
             return new BookClub()

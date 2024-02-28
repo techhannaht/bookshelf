@@ -3,6 +3,7 @@ import { MyCurrentlyReading } from './MyCurrentlyReading';
 import { MyFriendsList } from './MyFriendsList';
 import './Profile.css';
 import { MyUserDetails } from './MyUserDetails';
+import { Link } from "react-router-dom";
 
 export default function MyProfile() {
     return (
@@ -21,6 +22,7 @@ export default function MyProfile() {
                 {/* Currently Reading */}
                 <div className="currently-reading">
                 <MyCurrentlyReading/>
+                <Link to="/addBook" className="btn btn-primary">Add A Book</Link>
                 </div>
                 {/* Book Clubs */}
                 <div className="book-clubs">
