@@ -1,4 +1,5 @@
-﻿using bookshelf.Repositories;
+﻿using bookshelf.Models;
+using bookshelf.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookshelf.Controllers
@@ -19,6 +20,34 @@ namespace bookshelf.Controllers
 
             return Ok(_bookRepository.GetAllBooksByUser(userId));
         }
+
+        [HttpPost]
+        public IActionResult Post(Book? book)
+        {
+            _bookRepository.Add(book);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Book book)
+        {
+            if (id != book.id)
+            {
+                return BadRequest();
+            }
+
+            _bookRepository.EditBook(book);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _bookRepository.DeleteBook(id);
+            return NoContent();
+        }
+
 
     }
 }

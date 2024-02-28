@@ -12,7 +12,7 @@ const FollowButton = ({ userId }) => {
     if (bookshelfUserObject) {
       getAllFollowsByLoggedInUser(bookshelfUserObject.id)
         .then(follows => {
-          const alreadyFollows = follows.some(follow => follow.friendId === userId);
+          const alreadyFollows = follows.some(follow => follow.friendId === +userId);
           setIsFollowing(alreadyFollows); 
         });
     }

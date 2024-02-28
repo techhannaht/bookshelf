@@ -6,6 +6,7 @@ namespace bookshelf.Repositories
 {
     public class BookRepository : BaseRepository, IBookRepository
     {
+
         public BookRepository(IConfiguration configuration) : base(configuration) { }
         public List<Book> GetAllBooksByUser(int id)
         {
@@ -37,6 +38,114 @@ namespace bookshelf.Repositories
                     reader.Close();
 
                     return books;
+                }
+            }
+        }
+
+        public void AddBookClub(BookClub bookClub)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO BookClub (userId, bookId)
+                    OUTPUT INSERTED.ID
+                    VALUES (@userId, @bookId)";
+                    cmd.Parameters.AddWithValue("@userId", bookClub.userId);
+                    cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
+
+                    bookClub.id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Add(Book book)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Books (
+                           userId, title, currentPage, totalPage, genreId, authorId )
+                        OUTPUT INSERTED.ID
+                        VALUES (
+                            @userId, @title, @currentPage, @totalPage, @genreId, @authorId )";
+                    cmd.Parameters.AddWithValue("@userId", book.userId);
+                    cmd.Parameters.AddWithValue("@title", book.title);
+                    cmd.Parameters.AddWithValue("@currentPage", book.currentPage);
+                    cmd.Parameters.AddWithValue("@totalPage", book.totalPage);
+                    cmd.Parameters.AddWithValue("@genreId", book.genreId);
+                    cmd.Parameters.AddWithValue("@authorId", book.authorId);
+
+                    book.id = (int)cmd.ExecuteScalar();
+
+                    BookClub bookClub = new BookClub();
+
+                    bookClub.userId = book.userId; // Assuming you associate the book's user with the book club
+                    bookClub.bookId = book.id; // Use the ID of the newly added book
+
+                    // Add the book club to the database
+                    AddBookClub(bookClub);
+
+                }
+            }
+        }
+
+
+
+        public void EditBook(Book book)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         UPDATE Books
+                            SET 
+                                [userId] = @userId,
+                                title = @title,
+                                currentPage = @currentPage
+                                totalPage = @totalPage
+                                genreId = @genreId
+                                authorId = @authorId
+                            WHERE id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", book.id);
+                    cmd.Parameters.AddWithValue("@userId", book.userId);
+                    cmd.Parameters.AddWithValue("@title", book.title);
+                    cmd.Parameters.AddWithValue("@currentPage", book.currentPage);
+                    cmd.Parameters.AddWithValue("@totalPage", book.totalPage);
+                    cmd.Parameters.AddWithValue("@genreId", book.genreId);
+                    cmd.Parameters.AddWithValue("@authorId", book.authorId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteBook(int bookId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE from bookClub
+                            WHERE bookId = @id
+                            DELETE FROM Books
+                            WHERE id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", bookId);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
