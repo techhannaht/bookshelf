@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
+import { Link } from "react-router-dom";
+
 
 
 export function MyBookClubs() {
@@ -20,20 +22,20 @@ export function MyBookClubs() {
 
     return (
         <>
-           <>
-            <h1 className="text-left"><i>Book Clubs</i></h1>
-            <div className="row">
-                {bookClubs.map((bookClub) => (
-                    <div className="card m-4" style={{ width: '18rem' }} key={bookClub.id}>
-                        <div className="card-body text-center">
-                            <div>
-                                <label className="font-weight-bold" style={{ fontSize: '1.2em' }} ><b>{bookClub.book?.title}</b></label>
+            <>
+                <h1 className="text-left"><i>Book Clubs</i></h1>
+                <div className="row">
+                    {bookClubs.map((bookClub) => (
+                        <div className="card m-4" style={{ width: '18rem' }} key={bookClub.id}>
+                            <div className="card-body text-center">
+                                <Link to={`/bookClub/${bookClub?.id}`}>
+                                    <label className="font-weight-bold" style={{ fontSize: '1.2em' }}><b>{bookClub?.book?.title}</b></label>
+                                </Link>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-        </>
+                    ))}
+                </div>
+            </>
         </>
     )
 }

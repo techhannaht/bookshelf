@@ -1,0 +1,43 @@
+
+.App {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3 {
+    text-align: center;
+    margin-bottom: 500px;
+  }
+  
+  .message-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .message-item {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .send-message {
+    margin-top: 20px;
+  }
+  
+  .send-message input[type="text"] {
+    width: calc(100% - 70px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .send-message button:hover {
+    background-color: #0056b3;
+  }

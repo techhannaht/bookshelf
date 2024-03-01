@@ -32,10 +32,6 @@ export function UserDetails({userId}) {
             <div>
                 <label className="font-weight-bold"> {user.userName} </label>
             </div>
-            <div>
-                <label className="font-weight-bold">Total friends: </label>
-                <span> # of friends </span>
-            </div>
             <p></p>
             <FollowButton userId={userId}/>
         </>

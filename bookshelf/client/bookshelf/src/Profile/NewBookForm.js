@@ -2,8 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import { addBook } from '../Managers/BookManager';
+import { Link } from 'react-router-dom';
 
 
 export const BookForm = () => {
@@ -58,7 +59,7 @@ export const BookForm = () => {
         addBook(entryToSend)
             .then((p) => {
                 p.json()
-                    .then( x => {
+                    .then(x => {
                         navigate(`/`)
                     })
             }
@@ -89,8 +90,8 @@ export const BookForm = () => {
                 <FormGroup>
                     <Label for="Author">Author</Label>
                     <Input type="select" name="authorId" id="authorId" value={bookEntry.authorId} onChange={handleControlledInputChange}>
-                    <option value="1">Sarah J. Maas</option>
-                    <option value="2">Madeline Miller</option>
+                        <option value="1">Sarah J. Maas</option>
+                        <option value="2">Madeline Miller</option>
                     </Input>
                 </FormGroup>
                 <FormGroup>
@@ -113,6 +114,9 @@ export const BookForm = () => {
                 </FormGroup>
                 <FormGroup>
                     <Button>Save Post</Button>
+                    <Link to="/">
+                        <Button>Back to Profile</Button>
+                    </Link>
                 </FormGroup>
             </fieldset>
         </Form>

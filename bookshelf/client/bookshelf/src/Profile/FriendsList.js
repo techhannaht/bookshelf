@@ -1,6 +1,8 @@
 import { getAllFollowsByLoggedInUser } from "../Managers/FollowManager";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import SearchBar from "../SearchBar/SearchBar";
+
 
 export function FriendsList({userId}) {
     const [friends, setFriends] = useState([]);

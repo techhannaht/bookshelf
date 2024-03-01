@@ -34,9 +34,9 @@ export function BookCard({book, setShowForm}) {
                                     <button className="btn btn-warning" aria-label="edit" onClick={() => setShowForm(book.id)}>
                                     Edit
                                 </button>
-                                {/* <button className="btn btn-danger" onClick={() => {deleteBook(book.id, updateBookState); refreshPage(); }}>
+                                <button className="btn btn-danger" onClick={() => {deleteBook(book.id); refreshPage(); }}>
                                     Delete
-                                </button> */}
+                                </button>
                                 </div>
                             </div>
                     </div>
