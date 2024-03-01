@@ -16,7 +16,7 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT id, firstName, lastName, userName, password, imageUrl 
+                        SELECT id, firstName, lastName, userName, password, imageUrl, bio
                         FROM [User];";
 
                     List<User> userProfiles = new List<User>();
@@ -32,6 +32,7 @@ namespace bookshelf.Repositories
                             userName = DbUtils.GetString(reader, "userName"),
                             password = DbUtils.GetString(reader, "password"),
                             imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                            bio = DbUtils.GetString(reader, "bio"),
                         });
                     }
                     reader.Close();
@@ -49,7 +50,7 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT id, firstName, lastName, userName, password, imageUrl 
+                        SELECT id, firstName, lastName, userName, password, imageUrl, bio 
                         FROM [User]
                         WHERE userName = @userName";
 
@@ -68,6 +69,7 @@ namespace bookshelf.Repositories
                             userName = DbUtils.GetString(reader, "userName"),
                             password = DbUtils.GetString(reader, "password"),
                             imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                            bio = DbUtils.GetString(reader, "bio"),
                         };
                     }
                     reader.Close();
@@ -85,7 +87,7 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT id, firstName, lastName, userName, password, imageUrl 
+                        SELECT id, firstName, lastName, userName, password, imageUrl, bio
                         FROM [User]
                         WHERE id = @id";
 
@@ -104,6 +106,7 @@ namespace bookshelf.Repositories
                             userName = DbUtils.GetString(reader, "userName"),
                             password = DbUtils.GetString(reader, "password"),
                             imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                            bio = DbUtils.GetString(reader, "bio"),
                         };
                     }
                     reader.Close();
@@ -123,7 +126,7 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     var sql =
-                        @"SELECT id, firstName, lastName, userName, password, imageUrl 
+                        @"SELECT id, firstName, lastName, userName, password, imageUrl, bio
                 FROM [User]
                 WHERE userName LIKE @Criterion";
 
@@ -142,6 +145,7 @@ namespace bookshelf.Repositories
                                 userName = DbUtils.GetString(reader, "userName"),
                                 password = DbUtils.GetString(reader, "password"),
                                 imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                                bio = DbUtils.GetString(reader, "bio"),
                             };
 
                             users.Add(user);
@@ -162,15 +166,16 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO [User] (firstName, lastName, userName, 
-                                                                 password, imageUrl)
+                                                                 password, imageUrl, bio)
                                         OUTPUT INSERTED.ID
                                         VALUES (@firstName, @lastName, @userName, 
-                                                @password, @imageUrl)";
+                                                @password, @imageUrl, @bio)";
                     DbUtils.AddParameter(cmd, "@firstName", userProfile.firstName);
                     DbUtils.AddParameter(cmd, "@lastName", userProfile.lastName);
                     DbUtils.AddParameter(cmd, "@userName", userProfile.userName);
                     DbUtils.AddParameter(cmd, "@password", userProfile.password);
                     DbUtils.AddParameter(cmd, "@imageUrl", userProfile.imageUrl);
+                    DbUtils.AddParameter(cmd, "@bio", userProfile.bio);
 
                     userProfile.id = (int)cmd.ExecuteScalar();
                 }

@@ -21,19 +21,22 @@ export function MyUserDetails() {
             <h1 className="mb-4">{user.fullName}</h1>
             {!user.imageUrl ? (
                 <img
-                    style={{ width: "100px", float: "left", marginRight: "20px", borderRadius: "50%", }}
+                    style={{ width: "100px", float: "left", marginRight: "20px", borderRadius: "50%", border: "2px solid #000", }}
                     src="https://cdn.pixabay.com/photo/2018/08/15/13/12/dog-3608037_960_720.jpg"
                     className="card-img-top"
                     alt="Default"
                 />
             ) : (
                 <img
-                    style={{ width: "100px", float: "left", marginRight: "20px", borderRadius: "50%", }}
+                    style={{ width: "100px", float: "left", marginRight: "20px", borderRadius: "50%", border: "2px solid #000" }}
                     src={user.imageUrl}
                 />
             )}
             <div>
                 <label className="font-weight-bold"> {user.userName} </label>
+            </div>
+            <div>
+                <label className="font-weight-bold"> {user.bio} </label>
             </div>
             <p></p>
         </>

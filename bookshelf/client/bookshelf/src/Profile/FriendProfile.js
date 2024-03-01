@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import { UserDetails } from './UserDetails';
 import { FriendsList } from './FriendsList';
 import { BookClubs } from './BookClubs';
+import { Card } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 export default function FriendProfile() {
@@ -31,28 +33,29 @@ export default function FriendProfile() {
 
     return (
         <>
+            <div className="bookshelf">
             <section className="bookshelf-userdetails-friendslist">
                 {/* User Details Section */}
-                <div className="user-details">
-                    <UserDetails userId={id} />
-                </div>
+                <Card className="user-details">
+                <UserDetails userId={id}/>
+                </Card>
                 {/* Friends List */}
-                <div className="friends-list">
-                    <FriendsList userId={id} />
-                </div>
+                <Card className="friends-list">
+                <FriendsList userId={id}/>
+                </Card>
             </section>
             <section className="bookshelf-currentlyreading-bookclubs">
                 {/* Currently Reading */}
-                <div className="currently-reading">
-                    <div className="currently-reading">
-                        <CurrentlyReading userId={id} />
-                    </div>
-                </div>
+                <Card className="currently-reading">
+                <CurrentlyReading userId={id} />
+                <Link to="/addBook" className="btn btn-primary">Add A Book</Link>
+                </Card>
                 {/* Book Clubs */}
-                <div className="book-clubs">
-                    <BookClubs userId={id} />
-                </div>
+                <Card className="book-clubs">
+                <BookClubs userId={id}/>
+                </Card>
             </section>
+        </div>
         </>
     )
 }

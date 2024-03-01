@@ -21,6 +21,15 @@ namespace bookshelf.Controllers
             return Ok(_bookRepository.GetAllBooksByUser(userId));
         }
 
+        [HttpGet]
+        public IActionResult GetAllBooks()
+        {
+
+            return Ok(_bookRepository.GetAllBooks());
+        }
+
+        [HttpPost]
+
         [HttpPost]
         public IActionResult Post(Book? book)
         {

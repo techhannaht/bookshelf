@@ -15,6 +15,26 @@ export const getAllBooksByUser = (id) => {
         .then((r) => r.json());
 };
 
+
+// fetch all books in database
+export const getAllBooks = () => {
+    return fetch(`${apiUrl}/api/Book`)
+        .then((r) => r.json());
+};
+
+
+// fetch all books by other users
+export const getAllGenres = () => {
+    return fetch(`${apiUrl}/api/Genre`)
+        .then((r) => r.json());
+};
+
+// fetch all books by other users
+export const getAllAuthors = () => {
+    return fetch(`${apiUrl}/api/Author`)
+        .then((r) => r.json());
+};
+
 export const addBook = (singleBook) => {
     return fetch(`https://localhost:5001/api/Book`, {
       method: "POST",

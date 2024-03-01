@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
 import { Link } from "react-router-dom";
+import { deleteBookClub } from "../Managers/BookClubManager";
+import { Button } from "reactstrap";
+import { Trash } from 'react-bootstrap-icons';
+import { BookClubCard } from "./BookClubCard";
 
+function refreshPage() {
+    window.location.reload();
+}
 
 
 export function MyBookClubs() {
@@ -26,14 +33,9 @@ export function MyBookClubs() {
                 <h1 className="text-left"><i>Book Clubs</i></h1>
                 <div className="row">
                     {bookClubs.map((bookClub) => (
-                        <div className="card m-4" style={{ width: '18rem' }} key={bookClub.id}>
-                            <div className="card-body text-center">
-                                <Link to={`/bookClub/${bookClub?.id}`}>
-                                    <label className="font-weight-bold" style={{ fontSize: '1.2em' }}><b>{bookClub?.book?.title}</b></label>
-                                </Link>
-                            </div>
-                        </div>
+                       <BookClubCard bookClub={bookClub}/>
                     ))}
+                    
                 </div>
             </>
         </>

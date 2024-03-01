@@ -2,17 +2,20 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Card } from 'reactstrap';
 import { addBook } from '../Managers/BookManager';
 import { Link } from 'react-router-dom';
-
+import { getAllAuthors, getAllGenres } from '../Managers/BookManager';
+import { getAllBooks } from '../Managers/BookManager';
 
 export const BookForm = () => {
-
     const localBookshelfUser = localStorage.getItem("userProfile");
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
-
-
+    const [authors, setAuthors] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [books, setBooks] = useState([]);
+    const [filteredBooks, setFilteredBooks] = useState([]);
+    const [search, setSearch] = useState( "");
     const [bookEntry, setBookEntry] = useState({
         title: "",
         currentPage: "",
@@ -22,6 +25,35 @@ export const BookForm = () => {
         authorId: "",
     })
 
+    const getAuthors = () => {
+
+       return getAllAuthors().then(allInfo => setAuthors(allInfo));
+    };
+
+    useEffect(() => {
+        getAuthors()
+        .then(getGenres)
+        .then(getAllBooks)
+        .then(allBooks => setBooks(allBooks))
+        ;
+    }, []);
+
+    const getGenres = () => {
+
+       return getAllGenres().then(allInfo => setGenres(allInfo));
+    };
+
+    useEffect(() => {
+        let filteredSearch 
+        search? 
+         filteredSearch = books.filter(x => x.title.toLowerCase().includes(search.toLowerCase()))
+        :
+        filteredSearch = []
+
+        setFilteredBooks(filteredSearch)
+    }, [search]);
+
+
     const handleControlledInputChange = (e) => {
 
         const newBookEntry = { ...bookEntry }
@@ -30,6 +62,8 @@ export const BookForm = () => {
 
         setBookEntry(newBookEntry)
     }
+    const handleControlledInputChangeSearch = (e) => setSearch(e.target.value)
+    
 
 
     const updateBookState = () => {
@@ -81,6 +115,29 @@ export const BookForm = () => {
     }
 
     return (
+        <>
+   <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Input
+                type="text"
+                name="search"
+                value={search}
+                onChange={handleControlledInputChangeSearch}
+                placeholder="Search books..."
+            />
+            
+            
+        </div>
+        <div>
+         <Card>
+         {filteredBooks.map((book) => (
+             <div key={book.id}>
+                {book.title}
+             </div>
+         ))}
+     </Card>
+     </div>
+
+
         <Form onSubmit={saveEntry}>
             <fieldset>
                 <FormGroup>
@@ -90,18 +147,23 @@ export const BookForm = () => {
                 <FormGroup>
                     <Label for="Author">Author</Label>
                     <Input type="select" name="authorId" id="authorId" value={bookEntry.authorId} onChange={handleControlledInputChange}>
-                        <option value="1">Sarah J. Maas</option>
-                        <option value="2">Madeline Miller</option>
+                    <option value="">Select Author</option>
+                        {authors.map(author => (
+                            <option key={author.id} value={author.id}>
+                                {author.name}
+                            </option>
+                        ))}
                     </Input>
                 </FormGroup>
                 <FormGroup>
                     <Label for="Genre">Genre</Label>
                     <Input type="select" name="genreId" id="genreId" value={bookEntry.genreId} onChange={handleControlledInputChange}>
-                        <option value="1">Fiction</option>
-                        <option value="2">Non-Fiction</option>
-                        <option value="3">Self-Help</option>
-                        <option value="4">Myserty</option>
-                        <option value="5">Adventure</option>
+                    <option value="">Select Genre</option>
+                        {genres.map(genre => (
+                            <option key={genre.id} value={genre.id}>
+                                {genre.name}
+                            </option>
+                        ))}
                     </Input>
                 </FormGroup>
                 <FormGroup>
@@ -121,7 +183,7 @@ export const BookForm = () => {
             </fieldset>
         </Form>
 
-
+        </>                   
     )
 }
 

@@ -1,16 +1,24 @@
 .bookshelf-userdetails-friendslist {
     display: flex; 
+    background-color: #fbfbf4;
+}
+
+.bookshelf {
+    height: 600px; /* Adjusted height for desktop */
+    background-color: #fbfbf4;
 }
 
 .bookshelf-currentlyreading-bookclubs {
     display: flex;
     justify-content: space-between; 
-    margin-top: 50px; 
+    margin-top: 30px; /* Reduced margin for desktop */
 }
 
 .user-details,
 .friends-list,
 .currently-reading,
 .book-clubs {
-    width: 45%; 
+    flex: 1; /* Distribute available space equally among flex items */
+    margin-right: 20px; /* Increased margin for desktop */ 
+    padding-left: 40px; /* Increased padding for desktop */
 }

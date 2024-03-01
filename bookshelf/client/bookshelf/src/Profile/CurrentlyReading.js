@@ -39,7 +39,7 @@ export function CurrentlyReading({ userId }) {
                             <div>
                                 <Progress
                                     animated
-                                    color="info"
+                                    color="primary"
                                     striped
                                     max={book.totalPage}
                                     value={book.currentPage}

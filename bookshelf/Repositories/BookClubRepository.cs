@@ -59,6 +59,28 @@ namespace bookshelf.Repositories
             }
         }
 
+        public void DeleteBookClub(int bookClubId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE from bookClub
+                            WHERE id = @id
+                            DELETE FROM Message
+                            WHERE bookClubId = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", bookClubId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private BookClub NewBookClubFromReader(SqlDataReader reader)
         {
             return new BookClub()

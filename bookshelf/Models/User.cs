@@ -26,6 +26,8 @@ namespace bookshelf.Models
         [MaxLength(255)]
         public string imageUrl { get; set; }
 
+        public string bio { get; set; }
+
         public string FullName
         {
             get

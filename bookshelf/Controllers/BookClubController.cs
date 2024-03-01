@@ -23,5 +23,12 @@ namespace bookshelf.Controllers
             return Ok(_bookClubRepository.GetAllBookClubsByUser(userId));
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _bookClubRepository.DeleteBookClub(id);
+            return NoContent();
+        }
+
     }
 }

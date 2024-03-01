@@ -42,6 +42,39 @@ namespace bookshelf.Repositories
             }
         }
 
+        public List<Book> GetAllBooks()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT b.id, b.userId, b.title, b.currentPage, b.totalPage, b.genreId, b.authorId,a.id AS ""Author Id"", a.name AS ""Author Name"", g.id AS ""Genre Id"", g.name AS ""Genre Name"", 
+                                    u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL
+                                    FROM Books b
+                                    LEFT JOIN Author a ON b.authorId = a.id
+                                    LEFT JOIN Genre g ON b.genreId = g.id
+                                    LEFT JOIN [User] u ON b.userId = u.id
+                       ";
+
+
+                    var reader = cmd.ExecuteReader();
+
+                    var books = new List<Book>();
+
+                    while (reader.Read())
+                    {
+                        books.Add(NewBookFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return books;
+                }
+            }
+        }
+
         public void AddBookClub(BookClub bookClub)
         {
             using (var conn = Connection)

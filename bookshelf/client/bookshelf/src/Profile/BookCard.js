@@ -1,5 +1,7 @@
 import { deleteBook } from "../Managers/BookManager";
-import { Progress } from "reactstrap";
+import { Progress, Button} from "reactstrap";
+import { Trash, Pencil } from 'react-bootstrap-icons';
+
 
 
 export function BookCard({book, setShowForm}) {
@@ -24,19 +26,19 @@ export function BookCard({book, setShowForm}) {
                                     <div>
                                         <Progress
                                             animated
-                                            color="info"
+                                            color="primary"
                                             striped
                                             max={book.totalPage}
                                             value={book.currentPage}
                                         />
                                         <p> on page {book.currentPage} of {book.totalPage} </p>
                                     </div>
-                                    <button className="btn btn-warning" aria-label="edit" onClick={() => setShowForm(book.id)}>
-                                    Edit
-                                </button>
-                                <button className="btn btn-danger" onClick={() => {deleteBook(book.id); refreshPage(); }}>
-                                    Delete
-                                </button>
+                                    <Button color="primary" aria-label="edit" onClick={() => setShowForm(book.id)}>
+                                    <Pencil/>
+                                </Button>
+                                <Button color="danger" onClick={() => {deleteBook(book.id); refreshPage(); }}>
+                                <Trash/>
+                                </Button>
                                 </div>
                             </div>
                     </div>

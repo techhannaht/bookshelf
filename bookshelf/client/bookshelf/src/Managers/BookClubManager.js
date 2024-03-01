@@ -14,3 +14,7 @@ export const getAllBookClubsByUser = (id) => {
     return fetch(`${apiUrl}/api/BookClub/${id}`)
         .then((r) => r.json());
 };
+
+export const deleteBookClub = (id) => {
+    return fetch(`https://localhost:5001/api/BookClub/${id}`, { method: "DELETE" })
+  }

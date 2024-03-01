@@ -12,6 +12,7 @@ export default function Register({setIsLoggedIn}) {
   const [userName, setUserName] = useState();
   const [password, setPassword] = useState();
   const [imageUrl, setImageUrl] = useState();
+  const [bio, setBio] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
   const registerClick = (e) => {
@@ -19,7 +20,7 @@ export default function Register({setIsLoggedIn}) {
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
     } else {
-      const userProfile = { firstName, lastName, userName, imageUrl, password};
+      const userProfile = { firstName, lastName, userName, imageUrl, bio, password};
       register(userProfile)
         .then(() => {
           setIsLoggedIn(true)
@@ -46,6 +47,10 @@ export default function Register({setIsLoggedIn}) {
         <FormGroup>
           <Label htmlFor="imageUrl">Profile Image URL</Label>
           <Input id="imageUrl" type="text" onChange={e => setImageUrl(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="bio">Bio</Label>
+          <Input id="bio" type="text" onChange={e => setBio(e.target.value)} />
         </FormGroup>
         <FormGroup>
           <Label for="password">Password</Label>
