@@ -113,6 +113,47 @@ namespace bookshelf.Repositories
             }
         }
 
+        public List<User> Search(string criterion)
+        {
+            List<User> users = new List<User>();
+
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    var sql =
+                        @"SELECT id, firstName, lastName, userName, password, imageUrl 
+                FROM [User]
+                WHERE userName LIKE @Criterion";
+
+                    cmd.CommandText = sql;
+                    DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var user = new User()
+                            {
+                                id = DbUtils.GetInt(reader, "id"),
+                                firstName = DbUtils.GetString(reader, "firstName"),
+                                lastName = DbUtils.GetString(reader, "lastName"),
+                                userName = DbUtils.GetString(reader, "userName"),
+                                password = DbUtils.GetString(reader, "password"),
+                                imageUrl = DbUtils.GetString(reader, "imageUrl"),
+                            };
+
+                            users.Add(user);
+                        }
+                    }
+                }
+            }
+
+            return users;
+        }
+
+
         public void Add(User userProfile)
         {
             using (var conn = Connection)

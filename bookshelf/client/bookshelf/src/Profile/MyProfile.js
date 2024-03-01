@@ -4,6 +4,7 @@ import { MyFriendsList } from './MyFriendsList';
 import './Profile.css';
 import { MyUserDetails } from './MyUserDetails';
 import { Link } from "react-router-dom";
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function MyProfile() {
     return (
@@ -16,6 +17,7 @@ export default function MyProfile() {
                 {/* Friends List */}
                 <div className="friends-list">
                 <MyFriendsList/>
+                <SearchBar/>
                 </div>
             </section>
             <section className="bookshelf-currentlyreading-bookclubs">

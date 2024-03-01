@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { deleteBook, getAllBooksByLoggedInUser } from "../Managers/BookManager";
 import { Progress } from "reactstrap";
 import BookContainer from "./BookContainer";
+import './BookCard.css';
 
 function refreshPage() {
     window.location.reload();
@@ -10,7 +11,6 @@ function refreshPage() {
 export function MyCurrentlyReading( { updateBookState } ) {
 
     const [books, setBook] = useState([]);
-    const [showForm, setShowForm] = useState(false)
     
 // Get books from database from logged in user 
     const getBooks = () => {
@@ -27,7 +27,7 @@ export function MyCurrentlyReading( { updateBookState } ) {
     return (
                 <>
                     <h1 className="text-left"><i>Currently Reading</i></h1>
-                    <div className="row">
+                    <div  className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                         {books.map((book) => (
                             <BookContainer book={book}/>
                         ))}

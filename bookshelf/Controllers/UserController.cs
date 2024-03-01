@@ -55,5 +55,20 @@ namespace bookshelf.Controllers
                 new { username = userProfile.userName },
                 userProfile);
         }
+
+        [HttpGet("search")]
+        public IActionResult SearchUsers(string query)
+        {
+            try
+            {
+                var users = _userRepository.Search(query);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, "User does not exist.");
+            }
+        }
     }
 }

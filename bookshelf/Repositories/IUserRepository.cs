@@ -8,5 +8,6 @@ namespace bookshelf.Repositories
         List<User> GetAll();
         User GetById(int id);
         User GetByUserName(string userName);
+        List<User> Search(string criterion);
     }
 }
