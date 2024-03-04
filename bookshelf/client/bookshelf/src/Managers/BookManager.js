@@ -45,6 +45,16 @@ export const addBook = (singleBook) => {
     });
   };
 
+  export const addToBookClub = (bookClub) => {
+    return fetch(`https://localhost:5001/api/Book/bookclub`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookClub),
+    });
+  };
+
   export const editBook = (book) => {
     return fetch(`https://localhost:5001/api/Book/${book.id}`, {
         method: "PUT", 

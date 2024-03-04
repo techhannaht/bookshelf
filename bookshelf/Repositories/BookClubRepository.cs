@@ -15,8 +15,8 @@ namespace bookshelf.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.userId, b.title, b.currentPage, b.totalPage, b.genreId, b.authorId,
-                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId
+                    cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.title, b.totalPage, b.genre, b.author,
+                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage
                          FROM bookClub bc
                               LEFT JOIN Books b ON bc.bookId = b.id
                               LEFT JOIN [User] u ON bc.userId = u.id
@@ -48,11 +48,12 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO BookClubs (userId, bookId)
+                    INSERT INTO BookClubs (userId, bookId, currentPage)
                     OUTPUT INSERTED.ID
-                    VALUES (@userId, @bookId)";
+                    VALUES (@userId, @bookId, @currentPage)";
                     cmd.Parameters.AddWithValue("@userId", bookClub.userId);
                     cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
+                    cmd.Parameters.AddWithValue("@bookId", bookClub.currentPage);
 
                     bookClub.id = (int)cmd.ExecuteScalar();
                 }
@@ -67,14 +68,45 @@ namespace bookshelf.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+
                     cmd.CommandText = @"
-                            DELETE from bookClub
-                            WHERE id = @id
-                            DELETE FROM Message
-                            WHERE bookClubId = @id
-                        ";
+                    DELETE FROM Message
+                    WHERE bookClubId = @id
+                     ";
 
                     cmd.Parameters.AddWithValue("@id", bookClubId);
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = @"
+                     DELETE FROM bookClub
+                     WHERE id = @id
+                     ";
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void EditBookClub(BookClub bookClub)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         UPDATE bookClub
+                            SET 
+                                userId = @userId,
+                                bookId = @bookId,
+                                currentPage = @currentPage
+                            WHERE id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", bookClub.id);
+                    cmd.Parameters.AddWithValue("@userId", bookClub.userId);
+                    cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
+                    cmd.Parameters.AddWithValue("@currentPage", bookClub.currentPage);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -86,15 +118,15 @@ namespace bookshelf.Repositories
             return new BookClub()
             {
                 id = reader.GetInt32(reader.GetOrdinal("id")),
+                currentPage = reader.GetInt32(reader.GetOrdinal("currentPage")),
                 bookId = reader.GetInt32(reader.GetOrdinal("bookId")),
                 Book = new Book()
                 {
                     id = reader.GetInt32(reader.GetOrdinal("Book Id")),
                     title = reader.GetString(reader.GetOrdinal("title")),
-                    currentPage = reader.GetInt32(reader.GetOrdinal("currentPage")),
                     totalPage = reader.GetInt32(reader.GetOrdinal("totalPage")),
-                    authorId = reader.GetInt32(reader.GetOrdinal("authorId")),
-                    genreId = reader.GetInt32(reader.GetOrdinal("genreId")),
+                    author = reader.GetString(reader.GetOrdinal("author")),
+                    genre = reader.GetString(reader.GetOrdinal("genre")),
                 },
                 userId = reader.GetInt32(reader.GetOrdinal("userId")),
                 User = new User()

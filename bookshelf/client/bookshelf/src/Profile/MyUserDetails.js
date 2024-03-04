@@ -1,9 +1,27 @@
+import { Button, Input } from "reactstrap";
 import { getAllProfileInfoByUser } from "../Managers/UserManager";
 import React, { useState, useEffect } from "react";
 
 
 export function MyUserDetails() {
     const [user, setUser] = useState([]);
+    const [bio, setBio] = useState(user.bio);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedBio, setEditedBio] = useState(bio);
+
+    const handleBioChange = (e) => {
+        setEditedBio(e.target.value);
+    };
+
+    const handleSaveClick = () => {
+        setBio(editedBio);
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setEditedBio(bio);
+        setIsEditing(false);
+    };
 
     const getUser = () => {
         const localBookshelfUser = localStorage.getItem("userProfile");
@@ -36,8 +54,23 @@ export function MyUserDetails() {
                 <label className="font-weight-bold"> {user.userName} </label>
             </div>
             <div>
-                <label className="font-weight-bold"> {user.bio} </label>
-            </div>
+            {isEditing ? (
+                <div>
+                    <Input
+                        type="text"
+                        value={editedBio}
+                        onChange={handleBioChange}
+                    />
+                    <Button onClick={handleSaveClick}>Save</Button>
+                    <Button onClick={handleCancelClick}>Cancel</Button>
+                </div>
+            ) : (
+                <div>
+                    <label className="font-weight-bold">{bio}</label>
+                    <Button onClick={() => setIsEditing(true)}>Edit</Button>
+                </div>
+            )}
+        </div>
             <p></p>
         </>
     )

@@ -3,55 +3,52 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, Card } from 'reactstrap';
-import { addBook } from '../Managers/BookManager';
+import { addBook, addToBookClub } from '../Managers/BookManager';
 import { Link } from 'react-router-dom';
 import { getAllAuthors, getAllGenres } from '../Managers/BookManager';
 import { getAllBooks } from '../Managers/BookManager';
+import { getAllBookClubsByLoggedInUser } from '../Managers/BookClubManager';
 
-export const BookForm = () => {
+export const BookClubRegistrationForm = () => {
     const localBookshelfUser = localStorage.getItem("userProfile");
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
-    const [authors, setAuthors] = useState([]);
-    const [genres, setGenres] = useState([]);
     const [books, setBooks] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
-    const [search, setSearch] = useState( "");
+    const [search, setSearch] = useState("");
     const [bookEntry, setBookEntry] = useState({
         title: "",
         currentPage: "",
         totalPage: "",
         userId: bookshelfUserObject.id,
-        genreId: "",
-        authorId: "",
+        genre: "",
+        author: "",
     })
 
-    const getAuthors = () => {
+    const [showForm, setShowForm] = useState(false); // State to manage form visibility
 
-       return getAllAuthors().then(allInfo => setAuthors(allInfo));
+    const toggleForm = () => {
+        setShowForm(!showForm);
     };
 
+
     useEffect(() => {
-        getAuthors()
-        .then(getGenres)
-        .then(getAllBooks)
-        .then(allBooks => setBooks(allBooks))
-        ;
+        getAllBooks()
+            .then(allBooks => setBooks(allBooks))
+            ;
     }, []);
 
-    const getGenres = () => {
-
-       return getAllGenres().then(allInfo => setGenres(allInfo));
-    };
 
     useEffect(() => {
-        let filteredSearch 
-        search? 
-         filteredSearch = books.filter(x => x.title.toLowerCase().includes(search.toLowerCase()))
-        :
-        filteredSearch = []
+        let filteredSearch
+        search ?
+            filteredSearch = books.filter(x => x.title.toLowerCase().includes(search.toLowerCase()))
+            :
+            filteredSearch = []
 
         setFilteredBooks(filteredSearch)
     }, [search]);
+
+    const handleControlledInputChangeSearch = (e) => setSearch(e.target.value)
 
 
     const handleControlledInputChange = (e) => {
@@ -62,26 +59,11 @@ export const BookForm = () => {
 
         setBookEntry(newBookEntry)
     }
-    const handleControlledInputChangeSearch = (e) => setSearch(e.target.value)
-    
 
-
-    const updateBookState = () => {
-        // Fetch the updated list of posts from the backend or update the existing state
-        // Example: You can fetch the updated list of posts from the backend and set it as the new state
-        fetch('/api/Book') // Assuming this endpoint retrieves all posts
-            .then(response => response.json())
-            .then(bookData => {
-                // Update the component state with the new list of posts
-                setBookEntry(bookData); // Assuming setPosts is your state update function
-            })
-            .catch(error => {
-                console.error('Error fetching posts:', error);
-            });
-    };
 
     const navigate = useNavigate();
 
+  
     const saveEntry = (e) => {
         e.preventDefault()
 
@@ -101,11 +83,10 @@ export const BookForm = () => {
 
             .then(setBookEntry({
                 title: "",
-                currentPage: "",
                 totalPage: "",
                 userId: bookshelfUserObject.id,
-                genreId: "",
-                authorId: "",
+                genre: "",
+                author: "",
             }))
 
             .catch(error => {
@@ -113,78 +94,148 @@ export const BookForm = () => {
                 // Handle errors here, such as displaying an error message to the user
             });
     }
+ 
+
+    const addBookFromBookTableForBookClub = (book) => {
+
+        
+        getAllBookClubsByLoggedInUser()
+        .then(userbooks => {
+            if(!userbooks.some( x => x.bookId == book.id) ){
+                const bookClub = {
+                    userId: bookshelfUserObject.id,
+                    bookId: book.id
+                }
+        
+                addToBookClub(bookClub)
+                .then(() => navigate("/"))
+
+            }
+            else {
+                window.alert("You are already in this book club.")
+            }
+
+        })
+ }
+
 
     return (
         <>
-   <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Input
-                type="text"
-                name="search"
-                value={search}
-                onChange={handleControlledInputChangeSearch}
-                placeholder="Search books..."
-            />
-            
-            
-        </div>
-        <div>
-         <Card>
-         {filteredBooks.map((book) => (
-             <div key={book.id}>
-                {book.title}
-             </div>
-         ))}
-     </Card>
-     </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Input
+                    type="text"
+                    name="search"
+                    value={search}
+                    onChange={handleControlledInputChangeSearch}
+                    placeholder="Search books..."
+                />
 
 
-        <Form onSubmit={saveEntry}>
-            <fieldset>
-                <FormGroup>
-                    <Label htmlFor="Title">Title</Label>
-                    <Input id="title" name="title" type="text" value={bookEntry.title} onChange={handleControlledInputChange} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="Author">Author</Label>
-                    <Input type="select" name="authorId" id="authorId" value={bookEntry.authorId} onChange={handleControlledInputChange}>
-                    <option value="">Select Author</option>
-                        {authors.map(author => (
-                            <option key={author.id} value={author.id}>
-                                {author.name}
-                            </option>
+            </div>
+            <div>
+                {filteredBooks.length > 0 && (
+                    <>
+                    {filteredBooks.map(book => (
+                        <Card>
+                            <div key={book.key}>
+                                <h5>{book.title}</h5>
+                                <Button onClick={() => addBookFromBookTableForBookClub(book)}>Select</Button>
+                            </div>
+                    </Card>
                         ))}
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="Genre">Genre</Label>
-                    <Input type="select" name="genreId" id="genreId" value={bookEntry.genreId} onChange={handleControlledInputChange}>
-                    <option value="">Select Genre</option>
-                        {genres.map(genre => (
-                            <option key={genre.id} value={genre.id}>
-                                {genre.name}
-                            </option>
-                        ))}
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="currentPage">Current Page</Label>
-                    <Input id="currentPage" name="currentPage" type="text" value={bookEntry.currentPage} onChange={handleControlledInputChange} />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="totalPage">Total Pages</Label>
-                    <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
-                </FormGroup>
-                <FormGroup>
-                    <Button color="primary" >Save Book</Button>
-                    <Link to="/">
-                        <Button color="warning">Back to Profile</Button>
-                    </Link>
-                </FormGroup>
-            </fieldset>
-        </Form>
+                        </>
+                )}
+            </div>
+                        <i> Don't See Your Book? </i>
+            <Button color="primary" onClick={toggleForm}>
+            {showForm ? "Close Form" : "Add New Book"}
+            </Button>
 
-        </>                   
+            {showForm && (
+                <Form onSubmit={saveEntry}>
+                <fieldset>
+                    <FormGroup>
+                        <Label htmlFor="Title">Title</Label>
+                        <Input id="title" name="title" type="text" value={bookEntry.title} onChange={handleControlledInputChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="Author">Author</Label>
+                        <Input type="text" name="author" id="author" value={bookEntry.author} onChange={handleControlledInputChange}>
+                        </Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="Genre">Genre</Label>
+                        <Input type="text" name="genre" id="genre" value={bookEntry.genre} onChange={handleControlledInputChange}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="totalPage">Total Pages</Label>
+                        <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button color="primary" >Save Book</Button>
+                        <Link to="/">
+                            <Button color="warning">Back to Profile</Button>
+                        </Link>
+                    </FormGroup>
+                </fieldset>
+            </Form>
+
+            )}
+
+
+           
+        </>
     )
 }
 
-export default BookForm;
+export default BookClubRegistrationForm;
+
+
+ // useEffect(() => {
+    //     if (searchTermBook.trim() !== '') {
+    //         fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(searchTermBook)}`)
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.docs) {
+    //                     setSearchResults(data.docs);
+    //                 } else {
+    //                     setSearchResults([]);
+    //                 }
+    //             })
+    //     } else {
+    //         setSearchResults([]);
+    //     }
+    // }, [searchTermBook]);
+
+
+    // const handleSearchInputChange = (e) => {
+    //     setSearchTermBook(e.target.value);
+    // };
+
+    // const getAuthors = () => {
+
+    //     return getAllAuthors().then(allInfo => setAuthors(allInfo));
+    // };
+
+      // const handleBookSelection = (selectedBook) => {
+    //     setBookEntry({
+    //         ...bookEntry,
+    //         title: selectedBook.title,
+    //     });
+    //     setSearchResults("");
+    // };
+
+    // // Function to handle changes in the title input field
+    // const handleTitleInputChange = (event) => {
+    //     setTitleInput(event.target.value);
+    // };
+    // // Filtered search results based on the title input
+    // const filteredSearchResults = searchResults.filter(book => {
+    //     return book.title.toLowerCase().includes(titleInput.toLowerCase());
+    // });
+
+    
+    // const getGenres = () => {
+
+    //     return getAllGenres().then(allInfo => setGenres(allInfo));
+    // };

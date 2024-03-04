@@ -14,12 +14,12 @@ namespace bookshelf.Controllers
             _bookRepository = bookRepository;
         }
 
-        [HttpGet("{userId}")]
-        public IActionResult GetAllBooksByUser(int userId)
-        {
+        //[HttpGet("{userId}")]
+        //public IActionResult GetAllBooksByUser(int userId)
+        //{
 
-            return Ok(_bookRepository.GetAllBooksByUser(userId));
-        }
+        //    return Ok(_bookRepository.GetAllBooksByUser(userId));
+        //}
 
         [HttpGet]
         public IActionResult GetAllBooks()
@@ -28,7 +28,6 @@ namespace bookshelf.Controllers
             return Ok(_bookRepository.GetAllBooks());
         }
 
-        [HttpPost]
 
         [HttpPost]
         public IActionResult Post(Book? book)
@@ -37,6 +36,7 @@ namespace bookshelf.Controllers
 
             return NoContent();
         }
+
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Book book)
@@ -54,6 +54,14 @@ namespace bookshelf.Controllers
         public IActionResult Delete(int id)
         {
             _bookRepository.DeleteBook(id);
+            return NoContent();
+        }
+
+        [HttpPost("bookclub")]
+        public IActionResult AddToBookClub(BookClub bookClub)
+        {
+            _bookRepository.AddBookClub(bookClub);
+
             return NoContent();
         }
 
