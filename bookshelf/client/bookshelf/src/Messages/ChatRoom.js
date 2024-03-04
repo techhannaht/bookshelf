@@ -38,7 +38,7 @@ function ChatRoom() {
                 <SendMessage addMessage={addMessage} bookClubId={id} />
             </div>
             <Link to="/">
-                <Button>Back to Profile</Button>
+                <Button color="warning" >Back to Profile</Button>
             </Link>
         </>
     );

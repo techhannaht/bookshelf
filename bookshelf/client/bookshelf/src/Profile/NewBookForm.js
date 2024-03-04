@@ -175,9 +175,9 @@ export const BookForm = () => {
                     <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
                 </FormGroup>
                 <FormGroup>
-                    <Button>Save Post</Button>
+                    <Button color="primary" >Save Book</Button>
                     <Link to="/">
-                        <Button>Back to Profile</Button>
+                        <Button color="warning">Back to Profile</Button>
                     </Link>
                 </FormGroup>
             </fieldset>
