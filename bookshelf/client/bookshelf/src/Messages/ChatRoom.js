@@ -36,10 +36,11 @@ function ChatRoom() {
                 <h3> Book Club </h3>
                 <MessageList messages={messages} />
                 <SendMessage addMessage={addMessage} bookClubId={id} />
+                <Link to="/">
+                    <Button color="warning" >Back to Profile</Button>
+                </Link>
             </div>
-            <Link to="/">
-                <Button color="warning" >Back to Profile</Button>
-            </Link>
+
         </>
     );
 }

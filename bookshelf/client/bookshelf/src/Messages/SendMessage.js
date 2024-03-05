@@ -15,10 +15,9 @@ export const MessageForm = ({ bookClubId }) => {
         window.location.reload();
     }
 
-
     const [messageEntry, setMessageEntry] = useState({
         userId: +bookshelfUserObject.id,
-        bookClubId: +bookClubId,
+        bookId: +bookClubId,
         content: "",
         sendDateTime: new Date()
     })
@@ -38,30 +37,21 @@ export const MessageForm = ({ bookClubId }) => {
         const entryToSend = {
             ...messageEntry,
             userId: +bookshelfUserObject.id,
-            bookClubId: +bookClubId,
+            bookId: +bookClubId,
             sendDateTime: new Date()
         }
 
         addMessage(entryToSend)
-            .then((p) => {
-                p.json()
                     .then(x => {
                         refreshPage()
                     })
-            }
-            )
-
+            
             .then(setMessageEntry({
                 userId: +bookshelfUserObject.id,
-                bookClubId: +bookClubId,
+                bookId: +bookClubId,
                 content: "",
                 sendDateTime: new Date()
             }))
-
-            .catch(error => {
-                console.error('Error adding post:', error);
-                // Handle errors here, such as displaying an error message to the user
-            });
     }
 
     return (

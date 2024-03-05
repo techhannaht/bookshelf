@@ -27,7 +27,7 @@ export function MyCurrentlyReading( { updateBookState } ) {
 
     return (
                 <>
-                    <h1 className="text-left"><i>Currently Reading</i></h1>
+                    <h1 className="text-center"><i>Currently Reading</i></h1>
                     <div  className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                         {books.map((bookClubObj) => (
                             <BookContainer bookClub={bookClubObj} book={bookClubObj?.book}/>

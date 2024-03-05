@@ -16,10 +16,10 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT m.id, m.userId, m.bookClubId, m.content, m.sendDateTime, u.id AS ""User Id"", u.userName, u.password, u.firstName, u.lastName, u.imageUrl
+                         SELECT m.id, m.userId, m.bookId, m.content, m.sendDateTime, u.id AS ""User Id"", u.userName, u.password, u.firstName, u.lastName, u.imageUrl
                          FROM Message m
                          LEFT JOIN [User] u ON m.userId = u.id
-                         WHERE m.bookClubId = @id;
+                         WHERE m.bookId = @id;
                        ";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -47,11 +47,11 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO Message (userId, bookClubId, content, sendDateTime)
+                    INSERT INTO Message (userId, bookId, content, sendDateTime)
                     OUTPUT INSERTED.ID
                     VALUES (@userId, @bookClubId, @content, @sendDateTime)";
                     cmd.Parameters.AddWithValue("@userId", message.userId);
-                    cmd.Parameters.AddWithValue("@bookClubId", message.bookClubId);
+                    cmd.Parameters.AddWithValue("@bookClubId", message.bookId);
                     cmd.Parameters.AddWithValue("@content", message.content);
                     cmd.Parameters.AddWithValue("@sendDateTime", message.sendDateTime);
 
@@ -97,7 +97,7 @@ namespace bookshelf.Repositories
                     password = DbUtils.GetString(reader, "password"),
                     imageUrl = DbUtils.GetString(reader, "imageUrl"),
                 },
-                bookClubId = reader.GetInt32(reader.GetOrdinal("bookClubId")),
+                bookId = reader.GetInt32(reader.GetOrdinal("bookId")),
                 content = reader.GetString(reader.GetOrdinal("content"))
             };
         }

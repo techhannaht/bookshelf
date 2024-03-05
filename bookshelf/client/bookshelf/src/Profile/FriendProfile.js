@@ -1,4 +1,4 @@
-import { getallprofiles } from '../Managers/UserManager';
+import { getAllProfileInfoById, getallprofiles } from '../Managers/UserManager';
 import React, { useState, useEffect } from "react";
 import { CurrentlyReading } from './CurrentlyReading';
 import './Profile.css';
@@ -13,22 +13,27 @@ import { Link } from 'react-router-dom';
 export default function FriendProfile() {
 
     const [user, setUser] = useState({});
+    const [idState, setIdState] = useState()
+    
     const { id } = useParams();
+
+    let changeId = id
 
     useEffect(() => {
         // fetch all users data
-        fetchAllUsers();
+        fetchAllUsers(id);
     }, []);
-
-    const fetchAllUsers = async () => {
-        try {
-            // fetch profile data
-            const usersData = await getallprofiles();
-            const friend = usersData.find(x => x.id == id)
-            setUser(friend);
-        } catch (error) {
-            console.error('Error fetching users:', error);
+    
+    useEffect(() => {
+        if(changeId == user.id){
+            setIdState(changeId)
         }
+         console.log(changeId)
+    },[user])
+
+    const fetchAllUsers = (paramId) => {
+           return getAllProfileInfoById(paramId)
+            .then((friend) => setUser(friend))
     };
 
     return (
@@ -36,23 +41,22 @@ export default function FriendProfile() {
             <div className="bookshelf">
             <section className="bookshelf-userdetails-friendslist">
                 {/* User Details Section */}
-                <Card className="user-details">
-                <UserDetails userId={id}/>
-                </Card>
+                <section className="user-details">
+                <UserDetails userprop={user} />
+                </section>
                 {/* Friends List */}
-                <Card className="friends-list">
-                <FriendsList userId={id}/>
-                </Card>
+                <section className="friends-list">
+                <FriendsList user={user} fetchAllUsers={fetchAllUsers}/>
+                </section>
             </section>
-            <section className="bookshelf-currentlyreading-bookclubs">
+            <section className="bookshelf-currentlyreading-bookclubs"  style={{ paddingLeft: '20px' }} >
                 {/* Currently Reading */}
                 <Card className="currently-reading">
-                <CurrentlyReading userId={id} />
-                <Link to="/addBook" className="btn btn-primary">Add A Book</Link>
+                <CurrentlyReading user={user} />
                 </Card>
                 {/* Book Clubs */}
                 <Card className="book-clubs">
-                <BookClubs userId={id}/>
+                <BookClubs user={user} />
                 </Card>
             </section>
         </div>

@@ -24,8 +24,13 @@ export function EditBookForm({ bookClub, setShowForm }) {
         e.preventDefault()
 
         const entryToSend = {
-            ...editBookClub,
+            id: editBookClub.id,
+            userId: editBookClub.userId,
+            bookId: editBookClub.bookId,
+            currentPage: +editBookClub.currentPage
         }
+
+        console.log(entryToSend);
 
         fetch(`https://localhost:5001/api/BookClub/${editBookClub.id}`, {
             method: "PUT",
@@ -35,7 +40,7 @@ export function EditBookForm({ bookClub, setShowForm }) {
             body: JSON.stringify(entryToSend),
         }).then(r => r.json)
             .then(() => setShowForm(false))
-            .then(refreshPage)
+        // .then(refreshPage)
     }
 
 
@@ -47,7 +52,7 @@ export function EditBookForm({ bookClub, setShowForm }) {
                     <Input name="currentPage" type="text" placeholder="" value={editBookClub.currentPage} onChange={handleControlledInputChange} />
                 </p>
             </div>
-            <button className="btn btn-success" onClick={(e) => UpdateEntry(e)}> Save </button>
+            <button className="btn btn-success" onClick={(e) => { UpdateEntry(e); refreshPage();}}>Save</button>
             <button className="btn btn-info" onClick={() => setShowForm(null)}> Cancel </button>
         </div>
     )
@@ -92,24 +97,24 @@ export function EditBookForm({ bookClub, setShowForm }) {
                     <Input name="totalPage" type="text" placeholder="" value={editBook.totalPage} onChange={handleControlledInputChange} />
                 </p> */}
 
-                
-    // const [authors, setAuthors] = useState([]);
-    // const [genres, setGenres] = useState([]);
 
-    // const getAuthors = () => {
+// const [authors, setAuthors] = useState([]);
+// const [genres, setGenres] = useState([]);
 
-    //     getAllAuthors().then(allInfo => setAuthors(allInfo));
-    // };
+// const getAuthors = () => {
 
-    // useEffect(() => {
-    //     getAuthors();
-    // }, []);
+//     getAllAuthors().then(allInfo => setAuthors(allInfo));
+// };
 
-    // const getGenres = () => {
+// useEffect(() => {
+//     getAuthors();
+// }, []);
 
-    //     getAllGenres().then(allInfo => setGenres(allInfo));
-    // };
+// const getGenres = () => {
 
-    // useEffect(() => {
-    //     getGenres();
-    // }, []);
+//     getAllGenres().then(allInfo => setGenres(allInfo));
+// };
+
+// useEffect(() => {
+//     getGenres();
+// }, []);

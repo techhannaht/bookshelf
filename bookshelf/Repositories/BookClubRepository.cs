@@ -60,7 +60,7 @@ namespace bookshelf.Repositories
             }
         }
 
-        public void DeleteBookClub(int bookClubId)
+        public void DeleteBookClub(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -70,18 +70,11 @@ namespace bookshelf.Repositories
                 {
 
                     cmd.CommandText = @"
-                    DELETE FROM Message
-                    WHERE bookClubId = @id
-                     ";
-
-                    cmd.Parameters.AddWithValue("@id", bookClubId);
-
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = @"
                      DELETE FROM bookClub
                      WHERE id = @id
                      ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();
                 }

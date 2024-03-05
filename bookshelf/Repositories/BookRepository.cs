@@ -110,11 +110,12 @@ namespace bookshelf.Repositories
 
                     book.id = (int)cmd.ExecuteScalar();
 
-                    BookClub bookClub = new BookClub();
+                    //BookClub bookClub = new BookClub();
 
-                    bookClub.bookId = book.id;
+                    //bookClub.bookId = book.id;
+                    //bookClub.userId = book.id;
 
-                    AddBookClub(bookClub);
+                    //AddBookClub(bookClub);
 
                 }
             }

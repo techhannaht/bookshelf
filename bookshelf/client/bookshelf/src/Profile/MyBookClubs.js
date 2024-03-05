@@ -30,7 +30,7 @@ export function MyBookClubs() {
     return (
         <>
             <>
-                <h1 className="text-left"><i>Book Clubs</i></h1>
+                <h1 className="text-center"><i>Book Clubs</i></h1>
                 <div className="row">
                     {bookClubs.map((bookClub) => (
                        <BookClubCard bookClub={bookClub}/>

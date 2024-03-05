@@ -10,6 +10,7 @@ import { getAllBooks } from '../Managers/BookManager';
 import { getAllBookClubsByLoggedInUser } from '../Managers/BookClubManager';
 
 export const BookClubRegistrationForm = () => {
+    const navigate = useNavigate();
     const localBookshelfUser = localStorage.getItem("userProfile");
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
     const [books, setBooks] = useState([]);
@@ -17,7 +18,6 @@ export const BookClubRegistrationForm = () => {
     const [search, setSearch] = useState("");
     const [bookEntry, setBookEntry] = useState({
         title: "",
-        currentPage: "",
         totalPage: "",
         userId: bookshelfUserObject.id,
         genre: "",
@@ -41,7 +41,8 @@ export const BookClubRegistrationForm = () => {
     useEffect(() => {
         let filteredSearch
         search ?
-            filteredSearch = books.filter(x => x.title.toLowerCase().includes(search.toLowerCase()))
+            filteredSearch = books.filter(book =>  book.title.toLowerCase().includes(search.toLowerCase()) ||
+            book.author.toLowerCase().includes(search.toLowerCase()))
             :
             filteredSearch = []
 
@@ -49,7 +50,6 @@ export const BookClubRegistrationForm = () => {
     }, [search]);
 
     const handleControlledInputChangeSearch = (e) => setSearch(e.target.value)
-
 
     const handleControlledInputChange = (e) => {
 
@@ -61,7 +61,7 @@ export const BookClubRegistrationForm = () => {
     }
 
 
-    const navigate = useNavigate();
+ 
 
   
     const saveEntry = (e) => {
@@ -72,27 +72,20 @@ export const BookClubRegistrationForm = () => {
             userId: bookshelfUserObject.id,
         }
 
-        addBook(entryToSend)
-            .then((p) => {
-                p.json()
-                    .then(x => {
-                        navigate(`/`)
-                    })
-            }
-            )
+        entryToSend.totalPage = +entryToSend.totalPage
 
-            .then(setBookEntry({
+        addBook(entryToSend)
+            .then(() => { 
+                setBookEntry({
                 title: "",
                 totalPage: "",
                 userId: bookshelfUserObject.id,
                 genre: "",
                 author: "",
-            }))
+            }
+            
+            )})
 
-            .catch(error => {
-                console.error('Error adding post:', error);
-                // Handle errors here, such as displaying an error message to the user
-            });
     }
  
 
@@ -139,6 +132,7 @@ export const BookClubRegistrationForm = () => {
                         <Card>
                             <div key={book.key}>
                                 <h5>{book.title}</h5>
+                                <h5>{book.author}</h5>
                                 <Button onClick={() => addBookFromBookTableForBookClub(book)}>Select</Button>
                             </div>
                     </Card>
@@ -172,7 +166,9 @@ export const BookClubRegistrationForm = () => {
                         <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
                     </FormGroup>
                     <FormGroup>
+                        <Link to="/addBook">
                         <Button color="primary" >Save Book</Button>
+                        </Link>
                         <Link to="/">
                             <Button color="warning">Back to Profile</Button>
                         </Link>

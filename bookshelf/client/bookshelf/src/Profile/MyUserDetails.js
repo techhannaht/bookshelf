@@ -1,27 +1,11 @@
-import { Button, Input } from "reactstrap";
+import { Button, Input, Card } from "reactstrap";
 import { getAllProfileInfoByUser } from "../Managers/UserManager";
 import React, { useState, useEffect } from "react";
 
 
 export function MyUserDetails() {
     const [user, setUser] = useState([]);
-    const [bio, setBio] = useState(user.bio);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedBio, setEditedBio] = useState(bio);
 
-    const handleBioChange = (e) => {
-        setEditedBio(e.target.value);
-    };
-
-    const handleSaveClick = () => {
-        setBio(editedBio);
-        setIsEditing(false);
-    };
-
-    const handleCancelClick = () => {
-        setEditedBio(bio);
-        setIsEditing(false);
-    };
 
     const getUser = () => {
         const localBookshelfUser = localStorage.getItem("userProfile");
@@ -36,7 +20,7 @@ export function MyUserDetails() {
 
     return (
         <>
-            <h1 className="mb-4">{user.fullName}</h1>
+            <h1 className="mb-4"><i>{user.fullName}</i></h1>
             {!user.imageUrl ? (
                 <img
                     style={{ width: "100px", float: "left", marginRight: "20px", borderRadius: "50%", border: "2px solid #000", }}
@@ -51,26 +35,13 @@ export function MyUserDetails() {
                 />
             )}
             <div>
-                <label className="font-weight-bold"> {user.userName} </label>
+                <label className="font-weight-bold"> @{user.userName} </label>
             </div>
             <div>
-            {isEditing ? (
-                <div>
-                    <Input
-                        type="text"
-                        value={editedBio}
-                        onChange={handleBioChange}
-                    />
-                    <Button onClick={handleSaveClick}>Save</Button>
-                    <Button onClick={handleCancelClick}>Cancel</Button>
-                </div>
-            ) : (
-                <div>
-                    <label className="font-weight-bold">{bio}</label>
-                    <Button onClick={() => setIsEditing(true)}>Edit</Button>
-                </div>
-            )}
-        </div>
+                <Card style={{ width: '400px', height: '100px', border: '1px solid #ccc', padding: '40px', boxSizing: 'border-box' }}>
+                    <label className="font-weight-bold"><i>{user.bio}</i></label>
+                </Card>
+            </div>
             <p></p>
         </>
     )
