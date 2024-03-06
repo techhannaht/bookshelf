@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Input, Card } from "reactstrap";
 
 const SearchBar = () => {
     const [query, setQuery] = useState('');
@@ -21,24 +22,39 @@ const SearchBar = () => {
             });
     };
 
+    const handleClear = () => {
+        setQuery('');
+        setResults([]);
+    };
+
     return (
-        <div>
-            <input
+        <>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search users..."
             />
-            <button onClick={handleSearch}>Search</button>
-
-            <div>
-                {results.map((user) => (
-                  <div key={user.id}>
-                  <Link to={`/profile/${user.id}`}>{user.userName}</Link>
-              </div>
-                ))}
-            </div>
+            <Button color="primary" aria-label="edit" onClick={handleSearch}>
+                Search
+            </Button>
+            {results.length > 0 && (
+                <Button color="danger" onClick={handleClear}>
+                    Clear
+                </Button>
+            )}
         </div>
+        <div>
+         <Card>
+         {results.map((user) => (
+             <div key={user.id}>
+                 <Link to={`/profile/${user.id}`}>{user.userName}</Link>
+             </div>
+         ))}
+     </Card>
+     </div>
+     </>
     );
 };
 

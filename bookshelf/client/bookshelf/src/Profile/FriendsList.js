@@ -1,29 +1,37 @@
 import { getAllFollowsByLoggedInUser } from "../Managers/FollowManager";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 
 
-export function FriendsList({userId}) {
+export function FriendsList({ user, fetchAllUsers }) {
     const [friends, setFriends] = useState([]);
+    const navigate = useNavigate()
 
     const getFriends = () => {
-        
-        getAllFollowsByLoggedInUser(userId).then(allInfo => setFriends(allInfo));
+        if (user.id) {
+
+            getAllFollowsByLoggedInUser(user.id).then(allInfo => setFriends(allInfo));
+        }
     };
 
     useEffect(() => {
         getFriends();
-    }, []);
+    }, [user]);
 
     return (
         <>
             <h1><i>Friends</i></h1>
             <ul className="list-group mt-4">
-            {friends.map((friend, index) => (
+                {friends.map((friend, index) => (
                     <li key={index} className="list-group-item">
-                    <Link to={`/profile/${friend.friendId}`}>{friend.user?.userName}</Link>
-                </li>
+                        <h6 onClick={() => {
+                            fetchAllUsers(friend.friendId)
+                                .then(() => navigate(`/profile/${friend.friendId}`))
+                        }} 
+                        style={{ color: 'blue', cursor: 'pointer' }}
+                        >{friend.user?.userName}</h6>
+                    </li>
                 ))}
             </ul>
         </>

@@ -56,6 +56,19 @@ namespace bookshelf.Controllers
                 userProfile);
         }
 
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, User userProfile)
+        {
+            if (id != userProfile.id)
+            {
+                return BadRequest();
+            }
+
+            _userRepository.EditUser(userProfile);
+            return NoContent();
+        }
+
         [HttpGet("search")]
         public IActionResult SearchUsers(string query)
         {

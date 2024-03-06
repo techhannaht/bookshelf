@@ -54,5 +54,16 @@ export const register = (userObject, password) => {
       });
   };
 
+
+  export const editUser = (user) => {
+    return fetch(`https://localhost:5001/api/User/${user.id}`, {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+    });
+};
+
  
   

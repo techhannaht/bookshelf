@@ -1,4 +1,4 @@
-import { getallprofiles } from '../Managers/UserManager';
+import { getAllProfileInfoById, getallprofiles } from '../Managers/UserManager';
 import React, { useState, useEffect } from "react";
 import { CurrentlyReading } from './CurrentlyReading';
 import './Profile.css';
@@ -6,53 +6,60 @@ import { useParams } from 'react-router-dom';
 import { UserDetails } from './UserDetails';
 import { FriendsList } from './FriendsList';
 import { BookClubs } from './BookClubs';
+import { Card } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 export default function FriendProfile() {
 
     const [user, setUser] = useState({});
+    const [idState, setIdState] = useState()
+    
     const { id } = useParams();
+
+    let changeId = id
 
     useEffect(() => {
         // fetch all users data
-        fetchAllUsers();
+        fetchAllUsers(id);
     }, []);
-
-    const fetchAllUsers = async () => {
-        try {
-            // fetch profile data
-            const usersData = await getallprofiles();
-            const friend = usersData.find(x => x.id == id)
-            setUser(friend);
-        } catch (error) {
-            console.error('Error fetching users:', error);
+    
+    useEffect(() => {
+        if(changeId == user.id){
+            setIdState(changeId)
         }
+         console.log(changeId)
+    },[user])
+
+    const fetchAllUsers = (paramId) => {
+           return getAllProfileInfoById(paramId)
+            .then((friend) => setUser(friend))
     };
 
     return (
         <>
+            <div className="bookshelf">
             <section className="bookshelf-userdetails-friendslist">
                 {/* User Details Section */}
-                <div className="user-details">
-                    <UserDetails userId={id} />
-                </div>
+                <section className="user-details">
+                <UserDetails userprop={user} />
+                </section>
                 {/* Friends List */}
-                <div className="friends-list">
-                    <FriendsList userId={id} />
-                </div>
+                <section className="friends-list">
+                <FriendsList user={user} fetchAllUsers={fetchAllUsers}/>
+                </section>
             </section>
-            <section className="bookshelf-currentlyreading-bookclubs">
+            <section className="bookshelf-currentlyreading-bookclubs"  style={{ paddingLeft: '20px' }} >
                 {/* Currently Reading */}
-                <div className="currently-reading">
-                    <div className="currently-reading">
-                        <CurrentlyReading userId={id} />
-                    </div>
-                </div>
+                <Card className="currently-reading">
+                <CurrentlyReading user={user} />
+                </Card>
                 {/* Book Clubs */}
-                <div className="book-clubs">
-                    <BookClubs userId={id} />
-                </div>
+                <Card className="book-clubs">
+                <BookClubs user={user} />
+                </Card>
             </section>
+        </div>
         </>
     )
 }

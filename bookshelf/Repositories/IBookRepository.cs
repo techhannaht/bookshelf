@@ -7,6 +7,9 @@ namespace bookshelf.Repositories
         void Add(Book book);
         void DeleteBook(int bookId);
         void EditBook(Book book);
-        List<Book> GetAllBooksByUser(int id);
+        List<Book> GetAllBooks();
+        //List<Book> GetAllBooksByUser(int id);
+        void AddBookClub(BookClub bookClub);
+
     }
 }

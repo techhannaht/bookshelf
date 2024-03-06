@@ -14,20 +14,13 @@ namespace bookshelf.Models
         public string title { get; set; }
 
         [Required]
-        public int currentPage { get; set; }
-
-        [Required]
         public int totalPage { get; set; }
 
         [Required]
-        public int genreId { get; set; }
-
-        public Genre? Genre { get; set; }
+        public string genre { get; set; }
 
         [Required]
-        public int authorId { get; set; }
-
-        public Author? Author { get; set; }
+        public string author { get; set; }
 
     }
 }

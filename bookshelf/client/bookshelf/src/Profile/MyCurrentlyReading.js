@@ -3,35 +3,33 @@ import { deleteBook, getAllBooksByLoggedInUser } from "../Managers/BookManager";
 import { Progress } from "reactstrap";
 import BookContainer from "./BookContainer";
 import './BookCard.css';
+import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
+import { useParams } from "react-router-dom";
+import { updateBookClubState } from "../Managers/BookClubManager";
 
 function refreshPage() {
     window.location.reload();
-  }
+}
 
-export function MyCurrentlyReading( { updateBookState } ) {
+export function MyCurrentlyReading() {
 
     const [books, setBook] = useState([]);
-    
-// Get books from database from logged in user 
-    const getBooks = () => {
-        const localBookshelfUser = localStorage.getItem("userProfile");
-        const bookshelfUserObject = JSON.parse(localBookshelfUser);
-
-        getAllBooksByLoggedInUser(bookshelfUserObject.id).then(allInfo => setBook(allInfo));
-    };
+    const { id } = useParams();
+    const localBookshelfUser = localStorage.getItem("userProfile");
+    const bookshelfUserObject = JSON.parse(localBookshelfUser);
 
     useEffect(() => {
-        getBooks();
-    }, []);
+        getAllBookClubsByLoggedInUser().then(allInfo => setBook(allInfo));
+    }, [bookshelfUserObject.id]);
 
     return (
-                <>
-                    <h1 className="text-left"><i>Currently Reading</i></h1>
-                    <div  className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {books.map((book) => (
-                            <BookContainer book={book}/>
-                        ))}
-                    </div>
-                </>
+        <>
+            <h1 className="text-center"><i> {bookshelfUserObject.firstName}'s Library</i></h1>
+            <div className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                {books.map((bookClubObj) => (
+                    <BookContainer bookClub={bookClubObj} book={bookClubObj?.book} />
+                ))}
+            </div>
+        </>
     );
 }    
