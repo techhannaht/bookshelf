@@ -157,6 +157,8 @@ namespace bookshelf.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                            DELETE from Message
+                            WHERE bookId = @id
                             DELETE from bookClub
                             WHERE bookId = @id
                             DELETE FROM Books

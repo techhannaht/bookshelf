@@ -60,10 +60,6 @@ export const BookClubRegistrationForm = () => {
         setBookEntry(newBookEntry)
     }
 
-
- 
-
-  
     const saveEntry = (e) => {
         e.preventDefault()
 
@@ -83,15 +79,12 @@ export const BookClubRegistrationForm = () => {
                 genre: "",
                 author: "",
             }
-            
             )})
-
     }
  
 
     const addBookFromBookTableForBookClub = (book) => {
 
-        
         getAllBookClubsByLoggedInUser()
         .then(userbooks => {
             if(!userbooks.some( x => x.bookId == book.id) ){
@@ -166,9 +159,7 @@ export const BookClubRegistrationForm = () => {
                         <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Link to="/addBook">
                         <Button color="primary" >Save Book</Button>
-                        </Link>
                         <Link to="/">
                             <Button color="warning">Back to Profile</Button>
                         </Link>

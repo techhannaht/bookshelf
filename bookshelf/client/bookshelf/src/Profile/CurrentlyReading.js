@@ -21,7 +21,7 @@ export function CurrentlyReading({ user }) {
 
     return (
         <>
-            <h1 className="text-center"><i>Currently Reading</i></h1>
+            <h1 className="text-center"><i>{user.firstName}'s Library </i></h1>
             <div className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {books.map((bookClubObj) => (
                     <CRCard bookClub={bookClubObj} book={bookClubObj?.book} />

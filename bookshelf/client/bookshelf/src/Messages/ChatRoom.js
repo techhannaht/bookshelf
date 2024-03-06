@@ -40,7 +40,6 @@ function ChatRoom() {
                     <Button color="warning" >Back to Profile</Button>
                 </Link>
             </div>
-
         </>
     );
 }

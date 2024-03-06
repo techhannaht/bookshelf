@@ -20,7 +20,7 @@ export function BookClubs({ user }) {
     return (
         <>
             <>
-                <h1 className="text-center"><i>Book Clubs</i></h1>
+                <h1 className="text-center"><i>{user.firstName}'s Book Clubs</i></h1>
                 <div className="row">
                     {bookClubs.map((bookClub) => (
                         <div className="card m-4" style={{ width: '18rem' }} key={bookClub.id}>

@@ -3,8 +3,7 @@ import { getAllAuthors, getAllGenres } from '../Managers/BookManager';
 import { useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-export function EditBookForm({ bookClub, setShowForm }) {
-
+export function EditBookForm({ onUpdate, bookClub, setShowForm }) {
     const [editBookClub, setEditBookClub] = useState(bookClub)
 
     function refreshPage() {
@@ -39,10 +38,9 @@ export function EditBookForm({ bookClub, setShowForm }) {
             },
             body: JSON.stringify(entryToSend),
         }).then(r => r.json)
-            .then(() => setShowForm(false))
-        // .then(refreshPage)
+            .then(() =>  {
+            setShowForm(false)});
     }
-
 
     return (
         <div className="card m-4" style={{ width: '18rem' }}>
@@ -52,14 +50,11 @@ export function EditBookForm({ bookClub, setShowForm }) {
                     <Input name="currentPage" type="text" placeholder="" value={editBookClub.currentPage} onChange={handleControlledInputChange} />
                 </p>
             </div>
-            <button className="btn btn-success" onClick={(e) => { UpdateEntry(e); refreshPage();}}>Save</button>
+            <button className="btn btn-success" onClick={(e) => { UpdateEntry(e); }}>Save</button>
             <button className="btn btn-info" onClick={() => setShowForm(null)}> Cancel </button>
         </div>
     )
 }
-
-
-
 
 
 {/* <p>

@@ -1,36 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
-import { Link } from "react-router-dom";
-import { deleteBookClub } from "../Managers/BookClubManager";
-import { Button } from "reactstrap";
-import { Trash } from 'react-bootstrap-icons';
+import { useParams } from "react-router-dom";
 import { BookClubCard } from "./BookClubCard";
-
-function refreshPage() {
-    window.location.reload();
-}
-
 
 export function MyBookClubs() {
 
     const [bookClubs, setBookClubs] = useState([]);
-
-    const getBookClubs = () => {
-        const localBookshelfUser = localStorage.getItem("userProfile");
-        const bookshelfUserObject = JSON.parse(localBookshelfUser);
-
-        getAllBookClubsByLoggedInUser(bookshelfUserObject.id).then(allInfo => setBookClubs(allInfo));
-    };
-
+    const { id } = useParams();
+    const localBookshelfUser = localStorage.getItem("userProfile");
+    const bookshelfUserObject = JSON.parse(localBookshelfUser);
+    
     useEffect(() => {
-        getBookClubs();
-
-    }, []);
+        getAllBookClubsByLoggedInUser().then(allInfo => setBookClubs(allInfo));
+    }, [id]);
 
     return (
         <>
             <>
-                <h1 className="text-center"><i>Book Clubs</i></h1>
+                <h1 className="text-center"><i>{bookshelfUserObject.firstName}'s Book Clubs</i></h1>
                 <div className="row">
                     {bookClubs.map((bookClub) => (
                        <BookClubCard bookClub={bookClub}/>

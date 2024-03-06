@@ -181,5 +181,36 @@ namespace bookshelf.Repositories
                 }
             }
         }
+
+        public void EditUser(User userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         UPDATE [User]
+                            SET 
+                                userName = @userName,
+                                password = @password, 
+                                firstName = @firstName, 
+                                lastName = @lastName, 
+                                imageUrl = @imageUrl, 
+                                bio = @bio
+                            WHERE id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", userProfile.id);
+                    cmd.Parameters.AddWithValue("@userName", userProfile.userName);
+                    cmd.Parameters.AddWithValue("@password", userProfile.password);
+                    cmd.Parameters.AddWithValue("@firstName", userProfile.firstName);
+                    cmd.Parameters.AddWithValue("@lastName", userProfile.lastName);
+                    cmd.Parameters.AddWithValue("@imageUrl", userProfile.imageUrl);
+                    cmd.Parameters.AddWithValue("@bio", userProfile.bio);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

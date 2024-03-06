@@ -1,24 +1,31 @@
 .bookshelf-userdetails-friendslist {
-    display: flex; 
-    background-color: #fbfbf4;
+   display: flex;
+   background: #ecf6fd; 
 }
 
 .bookshelf {
-    height: 600px; /* Adjusted height for desktop */
-    background-color: #fbfbf4;
+    height: 600px;
+    background: #ecf6fd; 
+    border: 3px solid #ededed; 
 }
 
 .bookshelf-currentlyreading-bookclubs {
     display: flex;
-    justify-content: space-between; 
-    margin-top: 30px; /* Reduced margin for desktop */
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-bottom: 300px;
+    background: #ecf6fd; 
 }
 
 .user-details,
 .friends-list,
 .currently-reading,
 .book-clubs {
-    flex: 1; /* Distribute available space equally among flex items */
-    margin-right: 20px; /* Increased margin for desktop */ 
-    padding-left: 40px; /* Increased padding for desktop */
+    flex: 1;
+    /* Distribute available space equally among flex items */
+    margin-right: 20px;
+    /* Increased margin for desktop */
+    padding-left: 40px;
+    /* Increased padding for desktop */
+    background: #ecf6fd; 
 }
