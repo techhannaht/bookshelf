@@ -11,9 +11,6 @@ export const MessageForm = ({ bookClubId }) => {
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
     const navigate = useNavigate();
 
-    function refreshPage() {
-        window.location.reload();
-    }
 
     const [messageEntry, setMessageEntry] = useState({
         userId: +bookshelfUserObject.id,
@@ -43,7 +40,7 @@ export const MessageForm = ({ bookClubId }) => {
 
         addMessage(entryToSend)
                     .then(x => {
-                        refreshPage()
+                        // refreshPage()
                     })
             
             .then(setMessageEntry({

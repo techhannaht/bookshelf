@@ -21,9 +21,6 @@ function ChatRoom() {
             .then(data => {
                 setMessages(data);
             })
-            .catch(error => {
-                console.error('Error fetching messages:', error);
-            });
     };
 
     const addMessage = (newMessage) => {

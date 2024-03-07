@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { getAllAuthors, getAllGenres } from '../Managers/BookManager';
 import { useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
 
-export function EditBookForm({ onUpdate, bookClub, setShowForm }) {
+export function EditBookForm({ setBook, bookClub, setShowForm }) {
     const [editBookClub, setEditBookClub] = useState(bookClub)
 
-    function refreshPage() {
-        window.location.reload();
-    }
 
     const handleControlledInputChange = (e) => {
 
@@ -38,7 +36,11 @@ export function EditBookForm({ onUpdate, bookClub, setShowForm }) {
             },
             body: JSON.stringify(entryToSend),
         }).then(r => r.json)
-            .then(() =>  {
+        .then(() => {
+            return getAllBookClubsByLoggedInUser()
+        })
+        .then(allInfo => setBook(allInfo))
+            .then(() => {
             setShowForm(false)});
     }
 

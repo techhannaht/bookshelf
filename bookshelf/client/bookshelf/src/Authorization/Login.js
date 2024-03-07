@@ -28,7 +28,7 @@ export default function Login({setIsLoggedIn}) {
     <Form onSubmit={loginSubmit}>
       <fieldset>
         <FormGroup>
-          <Label for="userName">Email</Label>
+          <Label for="userName">UserName</Label>
           <Input id="userName" type="text" onChange={e => setUserName(e.target.value)} />
         </FormGroup>
         <FormGroup>
