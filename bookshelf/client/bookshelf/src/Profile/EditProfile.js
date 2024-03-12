@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { getAllProfileInfoById, getAllProfileInfoByUser } from "../Managers/UserManager";
 import { useNavigate } from "react-router-dom";
+import editLogo from '../Images/edit-logo.png';
+import { Link } from 'react-router-dom';
+
 
 function refreshPage() {
     window.location.reload();
@@ -58,38 +61,45 @@ export function EditProfile() {
             },
             body: JSON.stringify(entryToSend),
         }).then(r => r.json)
-        .then(() => navigate(`/`))
+            .then(() => navigate(`/`))
     }
 
     return (
-        <div className="card m-4" style={{ width: '18rem' }}>
-            <div className="card-body text-center">
-                <p>
-                    UserName
-                    <Input name="userName" type="text" placeholder="" value={editUser.userName} onChange={handleControlledInputChange} />
-                </p>
-                <p>
-                    Password
-                    <Input name="password" type="text" placeholder="" value={editUser.password} onChange={handleControlledInputChange} />
-                </p>
-                <p>
-                   First Name
-                    <Input name="firstName" type="text" placeholder="" value={editUser.firstName} onChange={handleControlledInputChange} />
-                </p>
-                <p>
-                  Last Name
-                    <Input name="lastName" type="text" placeholder="" value={editUser.lastName} onChange={handleControlledInputChange} />
-                </p>
-                <p>
-                    Profile Picture
-                    <Input name="imageUrl" type="text" placeholder="" value={editUser.imageUrl} onChange={handleControlledInputChange} />
-                </p>
-                <p>
-                    Bio
-                    <Input name="bio" type="text" placeholder="" value={editUser.bio} onChange={handleControlledInputChange} />
-                </p>
+        <>
+            <div className="text-center mb-4" >
+                <img src={editLogo} alt="Logo" style={{ width: '500px' }} />
             </div>
-            <Button className="btn btn-success" onClick={UpdateEntry}>Save</Button>
-        </div>
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '20vh' }}>
+                <div className="card m-4" style={{ width: '50rem' }}>
+                    <div className="card-body text-center">
+                        <p>
+                            UserName
+                            <Input name="userName" type="text" placeholder="" value={editUser.userName} onChange={handleControlledInputChange} />
+                        </p>
+                        <p>
+                            Password
+                            <Input name="password" type="text" placeholder="" value={editUser.password} onChange={handleControlledInputChange} />
+                        </p>
+                        <p>
+                            First Name
+                            <Input name="firstName" type="text" placeholder="" value={editUser.firstName} onChange={handleControlledInputChange} />
+                        </p>
+                        <p>
+                            Last Name
+                            <Input name="lastName" type="text" placeholder="" value={editUser.lastName} onChange={handleControlledInputChange} />
+                        </p>
+                        <p>
+                            Profile Picture
+                            <Input name="imageUrl" type="text" placeholder="" value={editUser.imageUrl} onChange={handleControlledInputChange} />
+                        </p>
+                        <p>
+                            Bio
+                            <Input name="bio" type="text" placeholder="" value={editUser.bio} onChange={handleControlledInputChange} />
+                        </p>
+                    </div>
+                    <Button color="primary" onClick={UpdateEntry}>Save</Button>
+                </div>
+            </div>
+        </>
     );
 }

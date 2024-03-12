@@ -98,7 +98,9 @@ namespace bookshelf.Repositories
                     imageUrl = DbUtils.GetString(reader, "imageUrl"),
                 },
                 bookId = reader.GetInt32(reader.GetOrdinal("bookId")),
-                content = reader.GetString(reader.GetOrdinal("content"))
+                content = reader.GetString(reader.GetOrdinal("content")),
+                sendDateTime = reader.GetDateTime(reader.GetOrdinal("sendDateTime"))
+
             };
         }
 

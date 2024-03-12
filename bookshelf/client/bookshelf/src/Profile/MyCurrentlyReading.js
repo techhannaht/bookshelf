@@ -20,14 +20,14 @@ export function MyCurrentlyReading() {
 
     useEffect(() => {
         getAllBookClubsByLoggedInUser().then(allInfo => setBook(allInfo));
-    }, [bookshelfUserObject.id]);
+    }, [id]);
 
     return (
         <>
             <h1 className="text-center"><i> {bookshelfUserObject.firstName}'s Library</i></h1>
             <div className="book-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {books.map((bookClubObj) => (
-                    <BookContainer bookClub={bookClubObj} book={bookClubObj?.book} />
+                    <BookContainer setBook={setBook} bookClub={bookClubObj} book={bookClubObj?.book} />
                 ))}
             </div>
         </>

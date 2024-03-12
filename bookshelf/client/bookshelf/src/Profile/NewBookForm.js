@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { getAllAuthors, getAllGenres } from '../Managers/BookManager';
 import { getAllBooks } from '../Managers/BookManager';
 import { getAllBookClubsByLoggedInUser } from '../Managers/BookClubManager';
+import addLogo from '../Images/Add-logo.png';
 
 export const BookClubRegistrationForm = () => {
     const navigate = useNavigate();
@@ -71,6 +72,12 @@ export const BookClubRegistrationForm = () => {
         entryToSend.totalPage = +entryToSend.totalPage
 
         addBook(entryToSend)
+        .then(() => {
+            return getAllBooks();
+        })    
+        .then(allInfo => {
+            setBooks(allInfo);
+        })
             .then(() => { 
                 setBookEntry({
                 title: "",
@@ -105,74 +112,80 @@ export const BookClubRegistrationForm = () => {
  }
 
 
-    return (
+    return  (
         <>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Input
-                    type="text"
-                    name="search"
-                    value={search}
-                    onChange={handleControlledInputChangeSearch}
-                    placeholder="Search books..."
-                />
+         <div className="text-center mb-4" >
+                <img src={addLogo} alt="Logo" style={{ width: '600px' }} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30vh' }}>
+            <Card style={{ width: '100%', maxWidth: '1000px' }}>
+                <div style={{ padding: '100px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Input
+                            type="text"
+                            name="search"
+                            value={search}
+                            onChange={handleControlledInputChangeSearch}
+                            placeholder="Search books..."
+                        />
+                    </div>
+                    <div>
+                        {filteredBooks.length > 0 && (
+                            <>
+                                {filteredBooks.map(book => (
+                                    <Card key={book.key}>
+                                        <div>
+                                            <h5>{book.title}</h5>
+                                            <h5>{book.author}</h5>
+                                            <Button onClick={() => addBookFromBookTableForBookClub(book)}>Select</Button>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </>
+                        )}
+                    </div>
+                    <i>Don't See Your Book?</i>
+                    <Button color="primary" onClick={toggleForm}>
+                        {showForm ? "Close Form" : "Add New Book"}
+                    </Button>
+                    <Link to="/">
+                                        <Button color="warning">Back to Profile</Button>
+                                    </Link>
 
-
-            </div>
-            <div>
-                {filteredBooks.length > 0 && (
-                    <>
-                    {filteredBooks.map(book => (
-                        <Card>
-                            <div key={book.key}>
-                                <h5>{book.title}</h5>
-                                <h5>{book.author}</h5>
-                                <Button onClick={() => addBookFromBookTableForBookClub(book)}>Select</Button>
-                            </div>
-                    </Card>
-                        ))}
-                        </>
-                )}
-            </div>
-                        <i> Don't See Your Book? </i>
-            <Button color="primary" onClick={toggleForm}>
-            {showForm ? "Close Form" : "Add New Book"}
-            </Button>
-
-            {showForm && (
-                <Form onSubmit={saveEntry}>
-                <fieldset>
-                    <FormGroup>
-                        <Label htmlFor="Title">Title</Label>
-                        <Input id="title" name="title" type="text" value={bookEntry.title} onChange={handleControlledInputChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="Author">Author</Label>
-                        <Input type="text" name="author" id="author" value={bookEntry.author} onChange={handleControlledInputChange}>
-                        </Input>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="Genre">Genre</Label>
-                        <Input type="text" name="genre" id="genre" value={bookEntry.genre} onChange={handleControlledInputChange}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="totalPage">Total Pages</Label>
-                        <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Button color="primary" >Save Book</Button>
-                        <Link to="/">
-                            <Button color="warning">Back to Profile</Button>
-                        </Link>
-                    </FormGroup>
-                </fieldset>
-            </Form>
-
-            )}
-
-
-           
+                    {showForm && (
+                        <Form onSubmit={saveEntry}>
+                            <fieldset>
+                                <FormGroup>
+                                    <Label htmlFor="Title">Title</Label>
+                                    <Input id="title" name="title" type="text" value={bookEntry.title} onChange={handleControlledInputChange} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="Author">Author</Label>
+                                    <Input type="text" name="author" id="author" value={bookEntry.author} onChange={handleControlledInputChange}>
+                                    </Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="Genre">Genre</Label>
+                                    <Input type="text" name="genre" id="genre" value={bookEntry.genre} onChange={handleControlledInputChange} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="totalPage">Total Pages</Label>
+                                    <Input id="totalPage" name="totalPage" type="text" value={bookEntry.totalPage} onChange={handleControlledInputChange} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button color="primary" >Save Book</Button>
+                                    <Link to="/">
+                                        <Button color="warning">Back to Profile</Button>
+                                    </Link>
+                                </FormGroup>
+                            </fieldset>
+                        </Form>
+                    )}
+                </div>
+            </Card>
+        </div>
         </>
-    )
+    );
 }
 
 export default BookClubRegistrationForm;

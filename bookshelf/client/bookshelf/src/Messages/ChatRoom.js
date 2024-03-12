@@ -21,9 +21,6 @@ function ChatRoom() {
             .then(data => {
                 setMessages(data);
             })
-            .catch(error => {
-                console.error('Error fetching messages:', error);
-            });
     };
 
     const addMessage = (newMessage) => {
@@ -33,9 +30,9 @@ function ChatRoom() {
     return (
         <>
             <div className="App">
-                <h3> Book Club </h3>
+                <h3> Book Club Chatroom </h3>
                 <MessageList messages={messages} />
-                <SendMessage addMessage={addMessage} bookClubId={id} />
+                <SendMessage setMessages={setMessages} addMessage={addMessage} bookClubId={id} />
                 <Link to="/">
                     <Button color="warning" >Back to Profile</Button>
                 </Link>
