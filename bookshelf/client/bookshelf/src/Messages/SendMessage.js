@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { addMessage } from '../Managers/MessageManager';
+import { addMessage, getAllMessagesByBookClub } from '../Managers/MessageManager';
 
-export const MessageForm = ({ bookClubId }) => {
+export const MessageForm = ({ setMessages, bookClubId }) => {
 
     const localBookshelfUser = localStorage.getItem("userProfile");
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
@@ -39,16 +39,17 @@ export const MessageForm = ({ bookClubId }) => {
         }
 
         addMessage(entryToSend)
-                    .then(x => {
-                        // refreshPage()
-                    })
-            
-            .then(setMessageEntry({
-                userId: +bookshelfUserObject.id,
-                bookId: +bookClubId,
-                content: "",
-                sendDateTime: new Date()
-            }))
+        .then(() => {
+            return getAllMessagesByBookClub(bookClubId);
+        })    
+        .then(allInfo => {
+            setMessages(allInfo);
+        })
+        .then(setMessageEntry({userId: +bookshelfUserObject.id,
+            bookId: +bookClubId,
+            content: "",
+            sendDateTime: new Date()}));
+    
     }
 
     return (

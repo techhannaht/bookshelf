@@ -10,7 +10,7 @@ import {
     NavLink
 } from 'reactstrap';
 import { logout } from '../Managers/UserManager';
-import bookmarkLogo from '../Images/bookmark-logo.png';
+import bookshelfLogo from '../Images/bookshelf-logo.png';
 
 
 export default function Header({ isLoggedIn, setIsLoggedIn }) {
@@ -20,7 +20,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
     return (
         <div>
             <Navbar color="light" light expand="md">
-                <NavbarBrand tag={RRNavLink} to="/"> <img src={bookmarkLogo} alt="bookshelf" height="30" /></NavbarBrand>
+                <NavbarBrand tag={RRNavLink} to="/"> <img src={bookshelfLogo} alt="bookshelf" height="30" /></NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>

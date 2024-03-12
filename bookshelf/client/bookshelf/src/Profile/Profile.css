@@ -1,12 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    /* Use Arial as the primary font family, followed by a generic sans-serif font */
+}
+
 .bookshelf-userdetails-friendslist {
    display: flex;
-   background: #ecf6fd; 
+   background: #ecf6fd;
+   font-family: Trebuchet MS, sans-serif;
 }
 
 .bookshelf {
     height: 600px;
     background: #ecf6fd; 
     border: 3px solid #ededed; 
+    font-family: Trebuchet MS, sans-serif;
 }
 
 .bookshelf-currentlyreading-bookclubs {

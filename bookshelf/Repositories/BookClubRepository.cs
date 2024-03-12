@@ -21,6 +21,7 @@ namespace bookshelf.Repositories
                               LEFT JOIN Books b ON bc.bookId = b.id
                               LEFT JOIN [User] u ON bc.userId = u.id
                         WHERE u.Id = @userid     
+                        ORDER BY CASE WHEN bc.currentPage = b.totalPage THEN 1 ELSE 0 END ASC
                        ";
 
                     cmd.Parameters.AddWithValue("@userid", id);
