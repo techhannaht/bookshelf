@@ -22,7 +22,8 @@ CREATE TABLE [User] (
   [password] nvarchar(255),
   [firstName] nvarchar(255),
   [lastName] nvarchar(255),
-  [imageURL] nvarchar(255)
+  [imageURL] nvarchar(255),
+  [bio] nvarchar(255)
 )
 GO
 
@@ -40,12 +41,11 @@ GO
 
 CREATE TABLE [Books] (
   [id] int PRIMARY KEY IDENTITY,
-  [userId] int,
   [title] nvarchar(255),
-  [currentPage] nvarchar(255),
+  [currentPage] int,
   [totalPage] int,
-  [genreId] int,
-  [authorId] int,
+  [genre]  nvarchar(255),
+  [author]  nvarchar(255)
 )
 GO
 
@@ -66,7 +66,7 @@ GO
 CREATE TABLE [Message] (
   [id] int PRIMARY KEY IDENTITY,
   [userId] int,
-  [bookClubId] int,
+  [bookId] int,
   [content] nvarchar(255),
   [sendDateTime] date
 )
@@ -75,13 +75,7 @@ GO
 ALTER TABLE [Books] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
 GO
 
-ALTER TABLE [Books] ADD FOREIGN KEY ([authorId]) REFERENCES [Author] ([id])
-G
-
 ALTER TABLE [bookClub] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
-GO
-
-ALTER TABLE [Books] ADD FOREIGN KEY ([genreId]) REFERENCES [Genre] ([id])
 GO
 
 ALTER TABLE [Follow] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
@@ -90,5 +84,5 @@ GO
 ALTER TABLE [Message] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
 GO
 
-ALTER TABLE [Message] ADD FOREIGN KEY ([bookClubId]) REFERENCES [bookClub] ([id])
+ALTER TABLE [Message] ADD FOREIGN KEY ([bookId]) REFERENCES [Books] ([id])
 GO
