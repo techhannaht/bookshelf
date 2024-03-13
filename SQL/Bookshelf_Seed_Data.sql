@@ -7,23 +7,10 @@ insert into [User] (id, firstName, lastName, userName, imageUrl, password) value
 insert into [User](id, firstName, lastName, userName, imageUrl, password) values (3, 'Fifine', 'Suffield', 'fsuffield2', 'https://robohash.org/etaspernaturipsum.png?size=50x50&set=set1', 'pass2');
 set identity_insert [User] off
 
-set identity_insert [Genre] on
-insert into Genre (id, name) values (1, 'Fiction');
-insert into Genre (id, name) values (2, 'Non-Fiction');
-insert into Genre (id, name) values (3, 'Self-Help');
-insert into Genre (id, name) values (4, 'Mystery');
-insert into Genre (id, name) values (5, 'Adventure');
-set identity_insert [Genre] off
-
-set identity_insert [Author] on
-insert into Author (id, name) values (1, 'Sarah J. Maas');
-insert into Author (id, name) values (2, 'Madeline Miller');
-set identity_insert [Author] off
-
 set identity_insert [Books] on
-insert into Books (id, userId, title, currentPage, totalPage, genreId, authorId) values (1, 1, 'Throne of Glass', 24, 388, 1, 1);
-insert into Books (id, userId, title, currentPage, totalPage, genreId, authorId) values (2, 2, 'Song of Achilles', 63, 258, 2, 2);
-insert into Books (id, userId, title, currentPage, totalPage, genreId, authorId) values (3, 3, 'Crescent City', 134, 419, 1, 1);
+insert into Books (id, userId, title, totalPage, genre, author) values (1, 1, 'Throne of Glass',  388, 'Fiction', 'Sarah J. Maas');
+insert into Books (id, userId, title, totalPage, genre, author) values (2, 2, 'Song of Achilles', 258, 'Fiction', 'Madeline Miller');
+insert into Books (id, userId, title, totalPage, genre, author) values (3, 3, 'Crescent City', 419,'Fiction', 'Sarah J. Maas');
 set identity_insert [Books] off
 
 set identity_insert [bookClub] on
