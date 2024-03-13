@@ -11,7 +11,6 @@ export const MessageForm = ({ setMessages, bookClubId }) => {
     const bookshelfUserObject = JSON.parse(localBookshelfUser);
     const navigate = useNavigate();
 
-
     const [messageEntry, setMessageEntry] = useState({
         userId: +bookshelfUserObject.id,
         bookId: +bookClubId,

@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    /* Use Arial as the primary font family, followed by a generic sans-serif font */
 }
 
 .bookshelf-userdetails-friendslist {
@@ -21,6 +20,13 @@ body {
     justify-content: space-between;
     margin-top: 30px;
     padding-bottom: 300px;
+    background: #ecf6fd; 
+}
+
+.currently-reading {
+    flex: 1; /* Distribute available space equally among flex items */
+    margin-right: 20px; /* Increased margin for desktop */
+    padding-left: 40px; /* Increased padding for desktop */
     background: #ecf6fd; 
 }
 
