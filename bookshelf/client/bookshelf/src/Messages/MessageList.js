@@ -2,11 +2,11 @@ import React from 'react';
 import Message from './Message';
 import './Chatroom.css';
 
-function MessageList({ messages }) {
+function MessageList({ setMessages , messages, bookClubId  }) {
   return (
     <div className="message-list">
       {messages.map(message => (
-        <Message key={message.id} message={message} />
+        <Message key={message.id} bookClubId={bookClubId} setMessages={setMessages} message={message} />
       ))}
     </div>
   );
