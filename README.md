@@ -3,7 +3,7 @@
 ## Overview
 Bookshelf is the perfect hangout for book lovers! It's a social platform where you can show off your reading interests and track your book collection with progress bars. Join online book clubs to chat, share thoughts, and discover new reads with fellow bookworms. Plus, follow friends, favorite authors, and other book enthusiasts. 
 
-*Insert Walkthrough*
+[*Walkthrough*](https://www.loom.com/share/5c6c1f98d01c44b2a5cae888e03b7f47?sid=2f6cc38d-a353-4ed4-bb4a-152c02f16a60)
 
 Installation Instructions
 1. Clone down the repository
