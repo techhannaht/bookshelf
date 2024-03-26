@@ -2,7 +2,7 @@ import { BookCard } from "./BookCard"
 import { EditBookForm } from "./EditBookForm"
 import React, { useState } from "react";
 
-export default function BookContainer({ setBook, bookClub, book })
+export default function BookContainer({ setBook, bookClub, book, setCurrentlyReadingBook, CRbookClub, CRbook })
 {
 
 const [showForm, setShowForm] = useState(false)

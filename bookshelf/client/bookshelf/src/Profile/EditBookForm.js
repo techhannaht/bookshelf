@@ -7,7 +7,6 @@ import { getAllBookClubsByLoggedInUser } from "../Managers/BookClubManager";
 export function EditBookForm({ setBook, bookClub, setShowForm }) {
     const [editBookClub, setEditBookClub] = useState(bookClub)
 
-
     const handleControlledInputChange = (e) => {
 
         const newBookClubEntry = { ...editBookClub }

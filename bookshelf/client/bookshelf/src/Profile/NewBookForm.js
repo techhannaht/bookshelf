@@ -93,11 +93,13 @@ export const BookClubRegistrationForm = () => {
     const addBookFromBookTableForBookClub = (book) => {
 
         getAllBookClubsByLoggedInUser()
+
         .then(userbooks => {
             if(!userbooks.some( x => x.bookId == book.id) ){
                 const bookClub = {
                     userId: bookshelfUserObject.id,
-                    bookId: book.id
+                    bookId: book.id,
+                    stat: 1,
                 }
         
                 addToBookClub(bookClub)
