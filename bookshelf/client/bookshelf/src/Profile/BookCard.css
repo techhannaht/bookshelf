@@ -16,3 +16,21 @@
         flex-basis: calc(50% - 20px); /* Two books per row on smaller screens */
     }
 }
+
+.book-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Add margin between rows */
+}
+
+.book-card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow cards to wrap to the next row */
+}
+
+.book-card {
+    margin-right: 10px; /* Add margin between cards */
+}
+
+

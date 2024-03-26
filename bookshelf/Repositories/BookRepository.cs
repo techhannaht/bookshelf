@@ -78,12 +78,13 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO BookClub (userId, bookId, currentPage)
+                    INSERT INTO BookClub (userId, bookId, currentPage, stat)
                     OUTPUT INSERTED.ID
-                    VALUES (@userId, @bookId, @currentPage)";
+                    VALUES (@userId, @bookId, @currentPage, @stat)";
                     cmd.Parameters.AddWithValue("@userId", bookClub.userId);
                     cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
                     cmd.Parameters.AddWithValue("@currentPage", bookClub.currentPage);
+                    cmd.Parameters.AddWithValue("@stat", bookClub.stat);
 
                     bookClub.id = (int)cmd.ExecuteScalar();
                 }

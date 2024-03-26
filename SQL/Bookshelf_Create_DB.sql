@@ -27,13 +27,7 @@ CREATE TABLE [User] (
 )
 GO
 
-CREATE TABLE [Genre] (
-  [id] int PRIMARY KEY IDENTITY,
-  [name] nvarchar(255)
-)
-GO
-
-CREATE TABLE [Author] (
+CREATE TABLE [Stat] (
   [id] int PRIMARY KEY IDENTITY,
   [name] nvarchar(255)
 )
@@ -53,6 +47,8 @@ CREATE TABLE [bookClub] (
   [id] int PRIMARY KEY IDENTITY,
   [userId] int,
   [bookId] int,
+  [currentPage] int,
+  [stat] int,
 )
 GO
 
@@ -76,6 +72,9 @@ ALTER TABLE [Books] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
 GO
 
 ALTER TABLE [bookClub] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])
+GO
+
+ALTER TABLE [bookClub] ADD FOREIGN KEY ([stat]) REFERENCES [Stat] ([id])
 GO
 
 ALTER TABLE [Follow] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([id])

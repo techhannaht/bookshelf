@@ -10,13 +10,20 @@ set identity_insert [User] off
 set identity_insert [Books] on
 insert into Books (id, userId, title, totalPage, genre, author) values (1, 1, 'Throne of Glass',  388, 'Fiction', 'Sarah J. Maas');
 insert into Books (id, userId, title, totalPage, genre, author) values (2, 2, 'Song of Achilles', 258, 'Fiction', 'Madeline Miller');
-insert into Books (id, userId, title, totalPage, genre, author) values (3, 3, 'Crescent City', 419,'Fiction', 'Sarah J. Maas');
+insert into Books (id, userId, title, totalPage, genre, author) values (3, 3, 'Crescent City', 900,'Fiction', 'Sarah J. Maas');
 set identity_insert [Books] off
 
+
+set identity_insert [Stat] on
+insert into Stat (id, name) values (1, 'TBR');
+insert into Stat (id, name) values (2, 'Current');
+insert into Stat (id, name) values (3, 'Finished');
+set identity_insert [Stat] off
+
 set identity_insert [bookClub] on
-insert into bookClub (id, userId, bookId) values (1, 1, 1);
-insert into bookClub (id, userId, bookId) values (2, 2, 2);
-insert into bookClub (id, userId, bookId) values (3, 3, 3);
+insert into bookClub (id, userId, bookId, currentPage, stat) values (1, 1, 1, 0, 1);
+insert into bookClub (id, userId, bookId, currentPage, stat) values (2, 2, 2, 70, 2);
+insert into bookClub (id, userId, bookId, currentPage, stat) values (3, 3, 3, 900, 3);
 set identity_insert [bookClub] off
 
 set identity_insert [Follow] on

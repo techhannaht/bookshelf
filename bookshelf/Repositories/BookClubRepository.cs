@@ -16,11 +16,113 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.title, b.totalPage, b.genre, b.author,
-                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage
+                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage, bc.stat
                          FROM bookClub bc
                               LEFT JOIN Books b ON bc.bookId = b.id
                               LEFT JOIN [User] u ON bc.userId = u.id
-                        WHERE u.Id = @userid     
+                        WHERE u.Id = @userid 
+                        ORDER BY CASE WHEN bc.currentPage = b.totalPage THEN 1 ELSE 0 END ASC
+                       ";
+
+                    cmd.Parameters.AddWithValue("@userid", id);
+                    var reader = cmd.ExecuteReader();
+
+                    var bookClubs = new List<BookClub>();
+
+                    while (reader.Read())
+                    {
+                        bookClubs.Add(NewBookClubFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return bookClubs;
+                }
+            }
+        }
+
+        public List<BookClub> GetAllCurrentlyReadingBookClubsByUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.title, b.totalPage, b.genre, b.author,
+                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage, bc.stat
+                         FROM bookClub bc
+                              LEFT JOIN Books b ON bc.bookId = b.id
+                              LEFT JOIN [User] u ON bc.userId = u.id
+                        WHERE u.Id = @userid 
+                        AND bc.stat = 2
+                        ORDER BY CASE WHEN bc.currentPage = b.totalPage THEN 1 ELSE 0 END ASC
+                       ";
+
+                    cmd.Parameters.AddWithValue("@userid", id);
+                    var reader = cmd.ExecuteReader();
+
+                    var bookClubs = new List<BookClub>();
+
+                    while (reader.Read())
+                    {
+                        bookClubs.Add(NewBookClubFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return bookClubs;
+                }
+            }
+        }
+
+        public List<BookClub> GetAllTBRBookClubsByUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.title, b.totalPage, b.genre, b.author,
+                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage, bc.stat
+                         FROM bookClub bc
+                              LEFT JOIN Books b ON bc.bookId = b.id
+                              LEFT JOIN [User] u ON bc.userId = u.id
+                        WHERE u.Id = @userid 
+                        AND bc.stat = 1
+                        ORDER BY CASE WHEN bc.currentPage = b.totalPage THEN 1 ELSE 0 END ASC
+                       ";
+
+                    cmd.Parameters.AddWithValue("@userid", id);
+                    var reader = cmd.ExecuteReader();
+
+                    var bookClubs = new List<BookClub>();
+
+                    while (reader.Read())
+                    {
+                        bookClubs.Add(NewBookClubFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return bookClubs;
+                }
+            }
+        }
+
+        public List<BookClub> GetAllFinishedBookClubsByUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT b.id AS ""Book Id"", b.title, b.totalPage, b.genre, b.author,
+                         u.id AS ""User Id"", u.firstName, u.lastName, u.userName, u.password, u.imageURL, bc.id, bc.bookId, bc.userId, bc.currentPage, bc.stat
+                         FROM bookClub bc
+                              LEFT JOIN Books b ON bc.bookId = b.id
+                              LEFT JOIN [User] u ON bc.userId = u.id
+                        WHERE u.Id = @userid 
+                        AND bc.stat = 3
                         ORDER BY CASE WHEN bc.currentPage = b.totalPage THEN 1 ELSE 0 END ASC
                        ";
 
@@ -49,12 +151,13 @@ namespace bookshelf.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO BookClubs (userId, bookId, currentPage)
+                    INSERT INTO BookClubs (userId, bookId, currentPage, stat)
                     OUTPUT INSERTED.ID
-                    VALUES (@userId, @bookId, @currentPage)";
+                    VALUES (@userId, @bookId, @currentPage, @stat)";
                     cmd.Parameters.AddWithValue("@userId", bookClub.userId);
                     cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
                     cmd.Parameters.AddWithValue("@bookId", bookClub.currentPage);
+                    cmd.Parameters.AddWithValue("@stat", bookClub.stat);
 
                     bookClub.id = (int)cmd.ExecuteScalar();
                 }
@@ -95,12 +198,14 @@ namespace bookshelf.Repositories
                                 userId = @userId,
                                 bookId = @bookId,
                                 currentPage = @currentPage
+                                stat = @stat
                             WHERE id = @id";
 
                     cmd.Parameters.AddWithValue("@id", bookClub.id);
                     cmd.Parameters.AddWithValue("@userId", bookClub.userId);
                     cmd.Parameters.AddWithValue("@bookId", bookClub.bookId);
                     cmd.Parameters.AddWithValue("@currentPage", bookClub.currentPage);
+                    cmd.Parameters.AddWithValue("@stat", bookClub.stat);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -114,6 +219,7 @@ namespace bookshelf.Repositories
                 id = reader.GetInt32(reader.GetOrdinal("id")),
                 currentPage = reader.GetInt32(reader.GetOrdinal("currentPage")),
                 bookId = reader.GetInt32(reader.GetOrdinal("bookId")),
+                stat = reader.GetInt32(reader.GetOrdinal("stat")),
                 Book = new Book()
                 {
                     id = reader.GetInt32(reader.GetOrdinal("Book Id")),
