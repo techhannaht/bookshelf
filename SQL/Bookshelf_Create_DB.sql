@@ -48,7 +48,7 @@ CREATE TABLE [bookClub] (
   [userId] int,
   [bookId] int,
   [currentPage] int,
-  [stat] VARCHAR(255),
+  [stat] int,
 )
 GO
 
