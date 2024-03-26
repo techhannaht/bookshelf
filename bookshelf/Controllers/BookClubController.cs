@@ -24,6 +24,27 @@ namespace bookshelf.Controllers
             return Ok(_bookClubRepository.GetAllBookClubsByUser(userId));
         }
 
+        [HttpGet("currentlyreading/{userId}")]
+        public IActionResult GetAllCurrentlyReadingBookClubsByUser(int userId)
+        {
+
+            return Ok(_bookClubRepository.GetAllCurrentlyReadingBookClubsByUser(userId));
+        }
+
+        [HttpGet("tbr/{userId}")]
+        public IActionResult GetAllTBRBookClubsByUser(int userId)
+        {
+
+            return Ok(_bookClubRepository.GetAllTBRBookClubsByUser(userId));
+        }
+
+        [HttpGet("finished/{userId}")]
+        public IActionResult GetAllFinsihedBookClubsByUser(int userId)
+        {
+
+            return Ok(_bookClubRepository.GetAllFinishedBookClubsByUser(userId));
+        }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, BookClub bookClub)
         {

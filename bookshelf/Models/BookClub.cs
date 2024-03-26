@@ -7,6 +7,7 @@
         public int userId { get; set; }
         public int bookId { get; set; }
         public int currentPage { get; set; }
+        public int stat { get; set; }
         public User? User { get; set; }
         public Book? Book { get; set; }
 
